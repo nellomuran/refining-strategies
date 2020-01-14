@@ -1,0 +1,540 @@
+\newcommand{\head}[1]{\textbf{#1.}}
+\newcommand{\halfline}{\vskip.5em}
+
+% Abbreviations
+
+\newcommand{\ie}{i.e.}
+\newcommand{\eg}{e.g.}
+\newcommand{\egdef}{:=}
+\newcommand{\wlogen}{w.l.o.g.\xspace}
+\newcommand{\liste}[3]{#1_{#2},\ldots,#1_{#3}}
+\newcommand{\bigiff}{\;\;\;iff\;\;\;}
+%\newcommand{\st}{\;\mbox{s.t.}\;}
+
+% General
+
+\newcommand{\init}{{\iota}}
+\newcommand{\bisim}{\leftrightarroweq}
+\newcommand{\bisimrel}{R}
+\newcommand{\wbisim}{\leftrightarroweq_w}
+\newcommand{\wbisimrel}{R}
+\DeclareMathOperator{\auxR}{\textit{R}}
+\DeclareMathOperator{\auxE}{\textit{E}}
+\newcommand{\dom}{\textit{dom}}
+\newcommand{\codom}{\textit{codom}}
+\newcommand{\partialto}{\rightharpoonup}
+\newcommand{\pref}{\preccurlyeq}
+\newcommand{\FPref}[1]{\textit{pref}\,(#1)}
+
+% sets
+\newcommand{\setn}{\mathbb N}     % ensemble N 
+\newcommand{\inter}{\cap}
+\newcommand{\union}{\cup}
+\newcommand{\dunion}{\uplus}
+\newcommand{\biginter}{\bigcap}
+\newcommand{\bigunion}{\bigcup}
+\newcommand{\sminus}{\setminus}
+\newcommand{\compo}{\circ}
+\newcommand{\sse}{\subseteq}
+
+\newcommand{\id}[1][X]{\textnormal{Id}_{#1}}
+
+%% Games
+
+\newcommand{\setpos}{V}
+\newcommand{\moves}{E}
+\newcommand{\pos}{v}
+\newcommand{\move}{\rightarrow}
+
+%% Logic
+
+% Expressivity
+
+\newcommand{\subsumed}{\preccurlyeq}
+\newcommand{\strsubsumed}{\prec}
+
+% Propositional 
+
+\newcommand{\AP}{\mathcal{AP}}
+\newcommand{\APf}{\textnormal{AP}}
+\newcommand{\pform}{\alpha}
+\newcommand{\pforma}{\beta}
+\newcommand{\ou}{\vee}
+\newcommand{\et}{\wedge}
+\newcommand{\bigou}{\bigvee}
+\newcommand{\biget}{\bigwedge}
+\newcommand{\impl}{\to}
+\newcommand{\equivaut}{\leftrightarrow}
+\newcommand{\Equivaut}{\Leftrightarrow}
+\newcommand{\Longequivaut}{\Longleftrightarrow}
+\renewcommand{\phi}{\varphi}
+\newcommand{\depth}{d}
+\newcommand{\subf}{\textit{Sub}}
+\newcommand{\true}{\texttt{true}}
+\newcommand{\false}{\texttt{false}}
+\newcommand{\cphi}[1]{\widetilde{#1}}
+\newcommand{\op}{\mbox{$\dagger$}}
+\newcommand{\sem}[2]{\llbracket #1 \rrbracket^{#2}}
+
+\newcommand{\lang}{\mathcal L}
+\newcommand{\langn}[1]{\lang_{#1}}
+\newcommand{\relat}{\,R\,}
+\newcommand{\rel}{\leadsto}
+% \newcommand{\rela}{\leadsto_1}
+% \newcommand{\relb}{\leadsto_{\lga}}
+\newcommand{\reli}[1][i]{\rel_{#1}}
+\newcommand{\relsi}[1][i]{\rel^{\mathcal S}_{#1}}
+\newcommand{\relfi}[1][i]{\rel^{\mathcal F}_{#1}}
+\newcommand{\rela}[1][a]{\rel_{#1}}
+
+% First order
+
+\newcommand{\var}{x}
+\newcommand{\varb}{y}
+\newcommand{\setvar}{\mathcal V\textit{ar}}
+\newcommand{\Var}{\setvar}
+\newcommand{\Varf}{\textnormal{Var}} 
+\newcommand{\free}{\textit{free}\,}
+\newcommand{\model}{\mathcal M}
+\newcommand{\domain}{D}
+\newcommand{\interpr}{I}
+\newcommand{\ass}{s}
+\newcommand{\verifier}{Verifier\xspace}
+\newcommand{\spoiler}{Spoiler\xspace}
+\newcommand{\verif}{V}
+\newcommand{\spoil}{S}
+\newcommand{\genplayer}{X}
+\newcommand{\egame}[3]{\ga_{#2,#3}^{#1}}
+
+
+% Temporal logic
+
+\newcommand{\Prop}{{Prop}}
+\newcommand{\until}{{\bf U}}
+\newcommand{\release}{{\bf R}}
+\newcommand{\wuntil}{\widetilde{\bf U}}
+\newcommand{\rond}{\fullmoon}
+\newcommand{\X}{{\bf X}}
+\newcommand{\always}{{\bf G}}
+\newcommand{\F}{{\bf F}}
+\newcommand{\trinf}{\pi}
+\newcommand{\trfin}{\rho}
+\newcommand{\E}{{\bf E}}
+\newcommand{\A}{{\bf A}}
+
+% Finite words automata
+
+\newcommand{\w}{w}
+\newcommand{\wa}{u}
+\newcommand{\wb}{v}
+\newcommand{\word}{\w}
+%\newcommand{\pref}{\preccurlyeq}
+\newcommand{\wauto}{\mathcal W}
+\newcommand{\wA}{\wauto}
+\newcommand{\wQ}{Q}
+\newcommand{\wq}{q}
+\newcommand{\wDelta}{\Delta}
+\newcommand{\wdelta}{\delta}
+\newcommand{\wF}{F}
+\newcommand{\wFp}{F_p}
+\newcommand{\wFpbar}{\overline{\wFp}}
+\newcommand{\settraces}{\mathcal T}
+\newcommand{\mirror}[1]{\overline{#1}}
+
+
+%% Tree automata
+
+\newcommand{\auto}{\mathcal A}
+\newcommand{\nauto}{\mathcal N}
+\newcommand{\ATA}{\ifmmode \auto \else ATA\xspace\fi}
+\newcommand{\NTA}{\ifmmode \nauto \else NTA\xspace\fi}
+\newcommand{\labeled}{labelled\xspace}
+\newcommand{\labeling}{labelling\xspace}
+\newcommand{\labelings}{labellings\xspace}
+\newcommand{\Dirtree}{X}
+\newcommand{\Dirtreea}{Y}
+\newcommand{\Dirtreeb}{Z}
+\newcommand{\Dirtreei}[1][I]{\setlstates_{#1}}
+\newcommand{\dir}{x}
+\newcommand{\dira}{y}
+\newcommand{\dirz}{z}
+\newcommand{\racine}{r}
+\newcommand{\noeud}{u}
+\newcommand{\noeuda}{v}
+\newcommand{\noeudb}{w}
+\newcommand{\setnodes}{U}
+\newcommand{\tree}{\tau}
+\newcommand{\ltree}{t}
+\newcommand{\forest}{u}
+\newcommand{\lforest}{\universe}
+\newcommand{\arity}{\mbox{arity}}
+\newcommand{\lab}{\ell}
+\newcommand{\plab}[1][p]{\ell_{#1}}
+\newcommand{\prodlab}{\otimes}
+\newcommand{\Dir}{\mbox{\textit{Dir}}}
+\newcommand{\tauto}{\mathcal A}
+\newcommand{\tQ}{Q}
+\newcommand{\tQp}{\tQ^\top}
+\newcommand{\tQm}{\tQ^\perp}
+\newcommand{\tq}{q}
+\newcommand{\tDelta}{\Delta}
+\newcommand{\tdelta}{\delta}
+\newcommand{\couleur}{C}
+\newcommand{\nword}{w}
+\newcommand{\bool}{\mathbb B}
+\newcommand{\boolp}{\mathbb B^+}
+\newcommand{\Dalt}{\Dir_A}
+\newcommand{\Dtwo}{\Dir_\uparrow}
+\newcommand{\upa}{{\uparrow}}
+\newcommand{\down}{{\downarrow}}
+\newcommand{\stay}{\epsilon}
+\protected\def\tpath{\ifmmode \lambda \else path\xspace\fi}
+\newcommand{\tpaths}{paths\xspace}
+\newcommand{\tPaths}{Paths}
+\newcommand{\game}{\mathcal G}
+\newcommand{\tgame}[3]{\mathcal G(#1,#2,#3)}
+\newcommand{\proj}[2][p]{\begingroup #2\!\Downarrow_{#1}\endgroup}
+\newcommand{\hide}[1][\Dirtreea]{\textnormal{hide}_{#1}}
+\newcommand{\wide}[1][\Dirtreea]{\textnormal{wide}_{#1}}
+
+%% Operations on automata
+
+\newcommand{\cauto}{\overline{\mathcal A}}
+\newcommand{\cdelta}{\overline{\delta}}
+\newcommand{\ccouleur}{\overline{\couleur}}
+\newcommand{\compl}[1]{\overline{#1}}
+% \newcommand{\narrow}[2][Y]{\ensuremath{\textnormal{narrow}_{#1}(#2)}}
+% \newcommand{\framing}[2][\tree]{\ensuremath{\textnormal{frame}_{#1}(#2)}}
+\newcommand{\narrow}[2][Y]{#2\!\downarrow_{#1}}
+\newcommand{\framing}[2][\tree]{\ensuremath{#2\cap #1}}
+
+%% Concurrent game structures
+
+\newcommand{\Ag}{\mathcal{A}\textit{g}}
+\newcommand{\Agf}{\textnormal{Ag}}
+\newcommand{\ag}{a}
+\newcommand{\agb}{b}
+\newcommand{\Act}{\textnormal{Ac}}
+\newcommand{\Mov}{\Act}
+\newcommand{\setmoves}{\Mov}
+\newcommand{\maxmov}{l}
+\newcommand{\act}{c}
+\newcommand{\mov}{\act}
+\newcommand{\obs}{o}
+\newcommand{\mova}{\mov_\ag}
+\newcommand{\jmov}{\bm{\mov}}
+\newcommand{\CGS}{\relax\ifmmode\mathcal G\else$\textrm{CGS}$\xspace\fi}
+\newcommand{\CGSi}{\relax\ifmmode\mathcal
+  G\else$\textrm{CGS}_{\textnormal{ii}}$\xspace\fi} %_{\textnormal{ii}
+\newcommand{\CGSip}{\relax\ifmmode\mathcal G'_{\textnormal{ii}}\else$\textrm{CGS}_{\textnormal{ii}}$\xspace\fi}
+\newcommand{\CGSs}{$\textrm{CGS}_{\textnormal{i}}$\xspace}
+\newcommand{\CGSp}{\textrm{CGS}\xspace}
+\newcommand{\trans}{E}
+\newcommand{\val}{\ell}
+\newcommand{\fplay}{\rho}
+\newcommand{\iplay}{\pi}
+\newcommand{\strat}{\sigma}
+\newcommand{\out}{\textnormal{Out}}
+\newcommand{\play}{\out}
+\newcommand{\class}{\mathcal C}
+\newcommand{\obseq}[1][\obs]{\sim_{#1}}
+\newcommand{\infset}[1][\ag]{I^{#1}}
+%\newcommand{\FPlay}{\text{Plays}}
+\newcommand{\eqc}[2][\pos]{[#1]_{#2}}
+
+\newcommand{\setstrat}{\mbox{\emph{Str}}}
+\newcommand{\setstrats}[1][\pos]{\mbox{\emph{Str}}(#1)}
+\newcommand{\setstrato}[1][\obs]{\mbox{\emph{Str}}_{#1}}
+\newcommand{\setstratos}[2][\pos]{\mbox{\emph{Str}}_{#2}(#1)}
+\newcommand{\strattrans}[2][\fplay]{#2^{#1}}
+\newcommand{\assign}{\chi}
+\newcommand{\passign}{\chi}
+\newcommand{\assigntrans}[2][\fplay]{#2^{#1}}
+\newcommand{\globaltrans}[3][\assign]{(#1,#2)^{#3}}
+
+\newcommand{\modelsSL}{\models}%{\models_{\scriptsize{\SLi}}}
+\newcommand{\modelsBSL}{\models}
+
+%% ATL
+
+\newcommand{\coal}{A}
+\newcommand{\coala}{B}
+\newcommand{\EstratATL}[1][\coal]{\langle #1 \rangle}
+\newcommand{\AstratATL}[1][\coal]{[ #1 ]}
+
+
+%% ATLsc
+
+\newcommand{\Estratsc}[1][\coal]{\langle\!\cdot #1 \cdot\!\rangle}
+\newcommand{\Astratsc}[1][\coal]{[ \cdot #1 \cdot ]}
+
+
+%% SL operators
+
+\newcommand{\determin}{\text{d}}
+\newcommand{\nondetermin}{\text{nd}}
+\newcommand{\gen}{\text{ty}}
+\newcommand{\Estratd}[1][\var]{\exists^\determin #1\,}
+\newcommand{\Astratd}[1][\var]{\forall^\determin #1\,}
+\newcommand{\Estratnd}[1][\var]{\exists^\nondetermin #1\,}
+\newcommand{\Astratnd}[1][\var]{\forall^\nondetermin #1\,}
+\newcommand{\Estratgen}[1][\var]{\exists^\gen #1\,}
+\newcommand{\Astratgen}[1][\var]{\forall^\gen #1\,}
+\newcommand{\setstratd}{\mbox{\emph{Str}}^{\text{d}}}
+\newcommand{\setstratnd}{\mbox{\emph{Str}}}
+\newcommand{\refines}{\preceq}
+\newcommand{\bind}[2][\ag]{(#1,#2)}
+\DeclareMathOperator{\unb}{?}
+\newcommand{\emptystrat}{\unb}
+\newcommand{\unbind}[1][\ag]{(#1,\unb)}
+\newcommand{\Aout}{{\bf A}}
+\newcommand{\Eout}{{\bf E}}
+
+\newcommand{\freeFun}[1]{\free(#1)}
+
+
+%% Complexity
+
+\newcommand{\qdepth}{qd}
+\newcommand{\ndd}{\mbox{sd}}
+\newcommand{\ndn}{\mbox{sn}}
+\newcommand{\nd}{\mbox{nd}}
+\newcommand{\alt}{\mbox{alt}}
+\newcommand{\tower}[2]{\mathrm{exp}\big(#1 \mid #2\big)}
+
+
+%% Complexity classes
+\newcommand{\itexp}[2]{{\mbox{\textnormal{exp}}^{#1}(#2)}}
+\newcommand{\poly}{\mbox{\textnormal{poly}}}
+\protected\def\DTIME{\ifmmode \mbox{\sc Dtime} \else {\sc Dtime}\xspace\fi}
+\protected\def\NTIME{\ifmmode \mbox{\sc Ntime} \else {\sc Ntime}\xspace\fi}
+\protected\def\DSPACE{\ifmmode \mbox{\sc Dspace} \else {\sc Dspace}\xspace\fi}
+\protected\def\NSPACE{\ifmmode \mbox{\sc Nspace} \else {\sc Nspace}\xspace\fi}
+\protected\def\NP{\ifmmode \mbox{\sc NP} \else {\sc NP}\xspace\fi}
+\protected\def\coNP{\ifmmode \mbox{\sc coNP} \else {\sc coNP}\xspace\fi}
+\protected\def\NPSPACE{\ifmmode \mbox{\sc NPspace} \else {\sc NPspace}\xspace\fi}
+\protected\def\PSPACE{\ifmmode \mbox{\sc Pspace} \else {\sc Pspace}\xspace\fi}
+\protected\def\EXPSPACE{\ifmmode \mbox{\sc Expspace} \else {\sc Expspace}\xspace\fi}
+\protected\def\TWOEXPSPACE{\ifmmode \mbox{\sc 2Expspace} \else {\sc 2Expspace}\xspace\fi}
+\protected\def\PTIME{\ifmmode \mbox{\sc Ptime} \else {\sc Ptime}\xspace\fi}
+\protected\def\NPTIME{\ifmmode \mbox{\sc NP} \else {\sc NP}\xspace\fi}
+\protected\def\EXPTIME{\ifmmode \mbox{\sc Exptime} \else {\sc Exptime}\xspace\fi}
+\protected\def\NEXPTIME{\ifmmode \mbox{\sc NExptime} \else {\sc NExptime}\xspace\fi}
+\protected\def\2EXPTIME{\ifmmode \mbox{\sc 2-Exptime} \else {\sc
+    2-Exptime}\xspace\fi}
+\DeclareRobustCommand{\kEXPTIME}[1][k]{\ifmmode \mbox{\sc $#1$-Exptime}
+\else {\sc $#1$-Exptime}\xspace\fi}
+\DeclareRobustCommand{\kNEXPTIME}[1][k]{\ifmmode \mbox{\sc $#1$-NExptime}
+\else {\sc $#1$-NExptime}\xspace\fi}
+\DeclareRobustCommand{\kEXPSPACE}[1][k]{\ifmmode \mbox{\sc $#1$-Expspace}
+\else {\sc $#1$-Expspace}\xspace\fi}
+\protected\def\ELEMENTARY{\ifmmode \mbox{\sc Elementary} \else {\sc Elementary}\xspace\fi}
+
+%% Names of logics
+
+\newcommand\LTL{\textnormal{\sffamily LTL}\xspace}
+\newcommand\ATL{\textnormal{{\sffamily ATL}}\xspace}
+\newcommand\ATLs{\ensuremath{\textnormal{{\sffamily ATL}}^{*}}\xspace}
+\newcommand\ATLssc{\ensuremath{\textnormal{{\sffamily ATL}}^{*}_{\textnormal{\scriptsize sc}}}\xspace}
+\newcommand\ATLi{\ensuremath{\textnormal{{\sffamily ATL}}_{\textnormal{\scriptsize i}}}\xspace}
+\newcommand\ATLsi{\ensuremath{\textnormal{{\sffamily ATL}}^{*}_{\textnormal{\scriptsize i,R}}}\xspace}
+\newcommand\ATLsci{\ensuremath{\textnormal{{\sffamily ATL}}_{\textnormal{\scriptsize sc, i}}}\xspace}
+\newcommand\ATLssci{\ensuremath{\textnormal{{\sffamily ATL}}^{*}_{\textnormal{\scriptsize sc,i}}}\xspace}
+\newcommand\CTL{\textnormal{{\sffamily CTL}}\xspace}
+\newcommand\CTLs{\ensuremath{\textnormal{{\sffamily CTL}}^{*}}\xspace}
+\newcommand\QCTL{\textnormal{{\sffamily QCTL}}\xspace}
+\newcommand\QCTLs{\ensuremath{\textnormal{{\sffamily
+        QCTL}}^{*}}\xspace}
+\newcommand\EQkCTLs{\ensuremath{\textnormal{{\sffamily EQ}}^k\textnormal{{\sffamily
+        CTL}}^{*}}\xspace}
+\newcommand\QCTLi{\ensuremath{\textnormal{{\sffamily QCTL}}_{\textnormal{\scriptsize i}}}\xspace}
+\newcommand\QCTLsi{\ensuremath{\textnormal{{\sffamily QCTL}}^{*}_{\textnormal{\scriptsize
+        ii}}}\xspace}
+\newcommand\QCTLsih{\ensuremath{\textnormal{{\sffamily QCTL}}^{*}_{\textnormal{\scriptsize i,$\tiny{\subseteq}$}}}\xspace}
+\newcommand\MSO{\textnormal{{\sffamily MSO}}\xspace}
+\newcommand\MSOeql{\ensuremath{\textnormal{{\sffamily MSO}}_{\textnormal{eq}}}\xspace}
+\newcommand\SL{\textnormal{{\sffamily SL}}\xspace}
+\newcommand\SLNG{\textnormal{{\sffamily SL[\small{NG}]}}\xspace}
+\newcommand\SLi{\ensuremath{\textnormal{{\sffamily
+        SL}}_{\textnormal{\scriptsize ii}}}\xspace}
+\newcommand\BSLi{\ensuremath{\textnormal{{\sffamily BSL}}_{\textnormal{\scriptsize ii}}}\xspace}
+\newcommand{\BSL}{\text{\sffamily BSL}\xspace}
+\newcommand{\BSLplus}{\ensuremath{\BSL^+}\xspace}
+\newcommand{\BSLpath}{\ensuremath{\text{\sffamily BSL}_\psi}\xspace}
+\newcommand{\BSLpluspath}{\ensuremath{\BSL^+_\psi}\xspace}
+\newcommand\CL{\textnormal{{\sffamily CL}}\xspace}
+
+\newcommand\SLref{\ensuremath{\textnormal{{\sffamily
+        SL}}^{\!\prec}}\xspace}
+
+
+%% Compound Kripke structures
+
+\newcommand{\APlstates}{\APf_l}
+\newcommand{\struct}{\mathcal S}
+\newcommand{\KS}{\relax\ifmmode\struct\else\textrm{KS}\xspace\fi}
+\newcommand{\KSs}{\textrm{KSs}\xspace}
+\newcommand{\CKS}{\relax\ifmmode\struct\else\textrm{CKS}\xspace\fi}
+\newcommand{\CKSs}{\textrm{CKSs}\xspace}
+\newcommand{\setstates}{S}
+\newcommand{\setlstates}{L}
+\newcommand{\prodsetlstates}[1][n]{\prod_{i=1}^n\setlstates_i}
+\newcommand{\sstate}{s}
+\newcommand{\lstate}{l}
+\newcommand{\relation}{R}
+\newcommand{\spath}{\tpath}
+\newcommand{\Paths}{\text{Paths}}
+\newcommand{\FPaths}{\text{FinPaths}}
+\newcommand{\Pequiv}[1][p]{\equiv_{#1}}
+\newcommand{\last}{\mbox{last}}
+
+\newcommand{\unfold}[2][\CKS]{\ltree_{#1}}
+\newcommand{\domunfold}[2][\CKS]{\tree_{#1}(#2)}
+\newcommand{\labunfold}[2][\CKS]{\lab_{#1}(#2)}
+
+\newcommand{\cobs}{\textnormal{\textbf{o}}}
+\newcommand{\oequiv}[1][\cobs]{\approx_{#1}}
+\newcommand{\oequivt}[1][\cobs]{\approx_{#1}}
+
+%% QCTLi
+
+\newcommand{\existsp}[1][p]{\exists#1\,}
+\newcommand{\forallp}[1][p]{\forall#1\,}
+\newcommand{\textexistsp}[1][p]{\exists#1}
+\newcommand{\modelss}{\models_s}
+\newcommand{\modelst}{\models}
+\newcommand{\uniq}[1][p]{\mathrm{uniq}(#1)}
+
+%% MSO
+
+\newcommand{\edge}{S}
+\newcommand{\eql}{\text{eq}}
+\newcommand{\setvarfo}{\setvar_1}
+\newcommand{\setvarso}{\setvar_2}
+
+%% Translations
+
+\newcommand{\transs}[1]{\widetilde{#1}}
+\newcommand{\transt}[1]{\widehat{#1}}
+\newcommand{\ligne}[1]{\mathbf{border}(#1)}
+\newcommand{\ligneb}[1]{\mathbf{level}(#1)}
+
+%% Misc
+
+\newcommand{\bigauto}[2][\sstate]{\ATA_{#1}^{#2}}
+\newcommand{\setcobs}{\textnormal{O}}
+\newcommand{\Iphi}[1][\phi]{I_{#1}}
+\newcommand{\projI}[2][I]{\begingroup #2\!\downarrow_{#1}\endgroup}
+\newcommand{\liftI}[3][I]{\begingroup #3\!\uparrow^{#1}_{#2}\endgroup}
+\newcommand{\trees}[1][\sstate]{\tree_#1}
+\newcommand{\autopower}[1][\CKS]{\wauto^{#1}}
+\newcommand{\Qpower}[1][\CKS]{\wQ^{#1}}
+\newcommand{\qpower}[1][\CKS]{\wq^{#1}}
+\newcommand{\deltapower}[1][\CKS]{\wdelta^{#1}}
+\newcommand{\autopsi}[1][\psi]{\wauto^{#1}}
+\newcommand{\Qpsi}[1][\psi]{\wQ^{#1}}
+\newcommand{\qpsi}[1][\psi]{\wq^{#1}}
+\newcommand{\deltapsi}[1][\psi]{\wdelta^{#1}}
+\newcommand{\Deltapsi}[1][\psi]{\wDelta^{#1}}
+\newcommand{\couleurpsi}[1][\psi]{\couleur^{#1}}
+\newcommand{\APq}{{\APf_{\exists}}}
+\newcommand{\APS}{\APf_{\CKS}}
+\newcommand{\APfree}{\APf_{f}}
+\newcommand{\blank}{\mathbf{0}}
+\newcommand{\labS}{\lab_\CKS}
+
+\newcommand{\SI}[1][I]{\setstates_{#1}}
+
+\newcommand{\APm}{\APf_{\mov}}
+\newcommand{\APv}{\APf_{\pos}}
+
+\newcommand{\tr}[2][f]{(#2)_s^{\,#1}} % should only be used in section V
+\newcommand{\trp}[2][f]{(#2)_p^{\,#1}} % should only be used in section V
+
+\newcommand{\trobs}[1]{\widetilde{#1}}
+
+\newcommand{\phistrat}[1][\var]{\phi_{\text{str}}(#1)}
+\newcommand{\psistrat}[1][\var]{\psi_{\text{str}}^{#1}}
+\newcommand{\psistratdet}[1][\var]{\psi_{\text{str,det}}^{#1}}
+\newcommand{\phistratdet}[1][\var]{\phi_{\text{str}}^{\text{det}}(#1)}
+\newcommand{\phiout}[1][\assign]{\Phi_{\text{out}}^{\,#1}}
+\newcommand{\psiout}[1][\assign]{\psi_{\text{out}}^{\,#1}}
+
+\newcommand{\stratlab}[2][\sigma]{\ell_{#1}^{#2}}
+
+%\newcommand{\coal}{A}
+\newcommand{\setobs}[1][\phi]{\Obsf(#1)}
+
+\newcommand{\gsphi}[1][\phi]{f_\CKS^{#1}}
+\newcommand{\Ed}{\E\mathrm{d}}
+\newcommand{\rEd}{\exists\mathrm{d}}
+% \newcommand{\nEd}{\mbox{$\E$d}}
+% \newcommand{\nrEd}{\mbox{$\exists$d}}
+
+\newcommand{\Phirat}{\Phi_{\text{RS}}}
+\newcommand{\Phiratc}{\Phi_{\text{c-RS}}}
+\newcommand{\Phiratnc}{\Phi_{\text{nc-RS}}}
+\newcommand{\Phiratci}{\Phi^{\textnormal{\scriptsize ii}}_{\text{c-RS}}}
+\newcommand{\Phiratnci}{\Phi^{\textnormal{\scriptsize ii}}_{\text{nc-RS}}}
+\newcommand{\vecvar}[1][\varb]{\bm{#1}}
+\newcommand{\vecenv}{\bm{e}}
+\newcommand{\vecbind}[2][\vecenv]{\bind[#1]{#2}}
+\newcommand{\phiauxgen}[1][\vecvar]{\phi_{\gamma}}
+\newcommand{\phiauxDS}[1][\vecvar]{\phi_{\text{DS}}}
+\newcommand{\phiauxNE}[1][\vecvar]{\phi_{\text{NE}}}
+\newcommand{\phiauxSPE}[1][\vecvar]{\phi_{\text{SPE}}}
+\newcommand{\phiauxDSi}[1][\vecvar]{\phi^{\textnormal{\scriptsize ii}}_{\text{DS}}}
+\newcommand{\phiauxNEi}[1][\vecvar]{\phi^{\textnormal{\scriptsize ii}}_{\text{NE}}}
+\newcommand{\phiauxSPEi}[1][\vecvar]{\phi^{\textnormal{\scriptsize ii}}_{\text{SPE}}}
+
+
+%% Coordination logic
+
+\newcommand{\coordvar}{\mathcal C}
+\newcommand{\stratvar}{\mathcal S}
+\newcommand{\strquantif}{\Finv}
+\newcommand{\scope}[2][\phi]{\textit{Scope}_{#1}(#2)}
+\newcommand{\freecoord}[1][\phi]{\mathcal F_{#1}}
+\newcommand{\APphi}[1][\phi]{\APf_{#1}}
+\newcommand{\setCGS}[1][\APf]{\textnormal{\CGSi}(#1)}
+\newcommand{\settrees}[2][\freecoord]{\textnormal{Trees}(#1,#2)}
+\newcommand{\trmodels}{\textnormal{tr}_{1}}
+\newcommand{\trformulas}{\textnormal{tr}_{2}}
+\newcommand{\hidden}{\textit{hidden}}
+\newcommand{\CKSfull}{\CKS_{\textit{full}}}
+\newcommand{\trCL}[1]{\widetilde{#1}}
+
+%% For \bigtimes
+
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+%\DeclareMathSymbol{\bigtimes}{1}{mathx}{"91}
+
+%% Proof sketch
+
+% \newenvironment{proofsketch}[1][\proofname]{\par
+%   \pushQED{\qed}%
+%   \normalfont \topsep6\p@\@plus6\p@\relax
+%   \trivlist
+%   \item[\hskip\labelsep
+%         \color{darkgray}\sffamily\bfseries
+%     #1\@addpunct{.}]\ignorespaces
+% }{%
+%   \popQED\endtrivlist%\@endpefalse
+% }
+
+\renewcommand{\iff}{\equivaut}
+
+%% Complexity
+
+\newcommand{\nbcol}[1]{\#({#1})}
+\newcommand{\kpsi}{K_\psi}
+\newcommand{\ka}{K_1}
+\newcommand{\kb}{K_2}
+\newcommand{\salph}[1][\phi]{2^{|\APq|}}
+\newcommand{\paraphi}{H}

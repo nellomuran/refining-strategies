@@ -1,0 +1,458 @@
+We first recall briefly the syntax and semantics of \QCTLs, to which
+we will reduce \SLref.
+
+
+
+\begin{definition}%[\QCTLs: Syntax]
+  \label{def-syntax-QCTLs}
+  The syntax of \QCTLs is defined by the following grammar:
+  \begin{align*}
+  \phi\egdef &\; p \mid \neg \phi \mid \phi\ou \phi \mid \E \psi \mid
+  \existsp[p] \phi\\
+    \psi\egdef &\; \phi \mid \neg \psi \mid \psi\ou \psi \mid \X \psi \mid
+  \psi \until \psi
+\end{align*}
+where $p\in\APf$. 
+\end{definition}
+
+Again, formulas of type $\phi$ are called \emph{state formulas}, those of type $\psi$
+are called \emph{path formulas}, and \QCTLs consists of all the state formulas
+defined by the grammar, and   we use standard abbreviation 
+$\A\psi \egdef \neg\E\neg\psi$.
+% The size $|\phi|$ of a formula $\phi$ is defined inductively as usual, but the
+% following case: $|\existsp{\cobs}\phi|\egdef 1 + |\cobs| + |\phi|$.
+
+The models of \QCTLs are classic Kripke structures:
+
+\begin{definition}
+A \emph{Kripke structure}, or \KS, over $\APf$ is a tuple 
+$\KS=(\setstates,\relation,\lab,\sstate_\init)$ where
+\begin{itemize}
+\item $\setstates$  is a set of
+\emph{states}, 
+\item $\relation\subseteq\setstates\times\setstates$ is a
+left-total\footnote{\ie, for all $\sstate\in\setstates$, there exists $\sstate'$
+such that $(\sstate,\sstate')\in\relation$.} \emph{transition
+relation}, 
+\item $\lab:\setstates\to 2^{\APf}$ is a \emph{\labeling function} and
+\item $\sstate_\init \in \setstates$ is an \emph{initial state}.
+\end{itemize}
+\end{definition}
+
+A \emph{path} in $\KS$  is an infinite sequence of states
+$\spath=\sstate_{0}\sstate_{1}\ldots$ such that
+ for all $i\in\setn$,
+$(\sstate_{i},\sstate_{i+1})\in \relation$. 
+A \emph{finite path} is a finite non-empty prefix of a path.
+We may write $\sstate\in\KS$ for $\sstate\in\setstates$, and we
+define the \emph{size} $|\KS|$ of a \KS
+$\KS=(\setstates,\relation,\sstate_\init,\lab)$ as its number of states: $|\KS|\egdef
+|\setstates|$. 
+
+Since we will interpret \QCTLs on unfoldings of \KS, we now define
+infinite trees.
+
+\halfline
+\head{Trees}
+Let $\Dirtree$ be a finite set of \emph{directions} (typically a set of states). 
+An \emph{$\Dirtree$-tree} $\tree$ 
+ is a nonempty set of words $\tree\subseteq \Dirtree^+$ such that
+ $\bm{(1)}$ there exists $\racine\in\Dirtree$,  called the
+    \emph{root} of $\tree$, such that each
+    $\noeud\in\tree$ starts with $\racine$ ($\racine\pref\noeud$);
+$\bm{(2)}$  if $\noeud\cdot\dir\in\tree$ and $\noeud\cdot\dir\neq\racine$, then
+    $\noeud\in\tree$;
+ $\bm{(3)}$ if $\noeud\in\tree$ then there exists $\dir\in\Dirtree$ such that $\noeud\cdot\dir\in\tree$.
+
+ The elements of a tree $\tree$ are called \emph{nodes}.  
+  If 
+ $\noeud\cdot\dir \in \tree$, we say that $\noeud\cdot\dir$ is a \emph{child} of
+ $\noeud$.
+An $\Dirtree$-tree $\tree$ is \emph{complete} if for every $\noeud \in
+\tree$ and  $\dir \in \Dirtree$,  $\noeud \cdot \dir \in \tree$.
+A \emph{\tpath} in $\tree$ is an infinite sequence of nodes $\tpath=\noeud_0\noeud_1\ldots$
+such that for all $i\in\setn$, $\noeud_{i+1}$ is a child of
+$\noeud_i$,
+and $\tPaths(\noeud)$ is the set of \tpaths
+ that start in node $\noeud$. 
+
+ An \emph{$\APf$-\labeled $\Dirtree$-tree}, or
+\emph{$(\APf,\Dirtree)$-tree} for short, is a pair
+$\ltree=(\tree,\lab)$, where $\tree$ is an $\Dirtree$-tree called the
+\emph{domain} of $\ltree$ and
+$\lab:\tree \rightarrow 2^{\APf}$ is a \emph{\labeling}, which maps
+each node to the set of propositions that hold there.
+ For $p\in\APf$, a \emph{$p$-\labeling} for a  tree is a mapping
+$\plab:\tree\to \{0,1\}$ that indicates in which nodes $p$ holds, and
+for a \labeled tree $\ltree=(\tree,\lab)$, the $p$-\labeling of $\ltree$ is
+the $p$-\labeling $\noeud \mapsto 1$ if $p\in\lab(\noeud)$, 0 otherwise. 
+The composition of a \labeled tree $\ltree=(\tree,\lab)$ with a
+$p$-\labeling $\plab$ for $\tree$ is defined as
+$\ltree\prodlab\plab\egdef(\tree,\lab')$, where
+$\lab'(\noeud)=\lab(\noeud)\union \{p\}$ if $\plab(\noeud)=1$, and
+$\lab(\noeud)\setminus \{p\}$ otherwise.
+A $p$-\labeling for a labelled tree $\ltree=(\tree,\lab)$ is a
+$p$-\labeling for its domain $\tree$.
+A \emph{pointed labelled tree} is a pair $(\ltree,\noeud)$ where
+ $\noeud$ is a node of $\ltree$.
+
+ % \begin{definition}
+ %   \label{def-unfolding}
+Let $\KS=(\setstates,\relation,\lab,\sstate_\init)$ be a Kripke structure over $\APf$. 
+The \emph{tree-unfolding of $\KS$} is the $(\APf,\setstates)$-tree $\unfold{\sstate}\egdef (\tree,\lab')$, where
+    $\tree$ is the set
+    of all finite  paths that start in $\sstate_\init$, and
+    for every $\noeud\in\tree$,
+    $\lab'(\noeud)\egdef \lab(\last(\noeud))$.
+%  \end{definition}
+
+\begin{definition}%[\QCTLsi semantics]
+We define by induction the satisfaction relation $\modelst$ of
+\QCTLs. Let   $\ltree=(\tree,\lab)$ be
+an $\APf$-\labeled tree, 
+$\noeud$  a node and $\tpath$  a path in $\tree$:
+% \begingroup
+% \addtolength{\jot}{-3pt}
+\[
+\begin{array}{lcl}
+  \ltree,\noeud\modelst p 			& \mbox{ if } & p\in\lab(\noeud)\\[1pt]
+  \ltree,\noeud\modelst \neg \phi		& \mbox{ if } & \ltree,\noeud\not\modelst \phi\\[1pt]
+  \ltree,\noeud\modelst \phi \ou \phi'		& \mbox{ if } & \ltree,\noeud \modelst \phi \mbox{ or    }\ltree,\noeud\modelst \phi' \\[1pt]
+  \ltree,\noeud\modelst \E\psi			& \mbox{ if } & \exists\,\tpath\in\tPaths(\noeud) \mbox{      s.t. }\ltree,\tpath\modelst \psi \\[1pt]
+  \ltree,\noeud\modelst \existsp \phi & \mbox{ if }
+  & \exists\,\plab \mbox{ a $p$-\labeling for
+    $\ltree$ s.t.
+    }\\
+  & & \quad \quad  \ltree\prodlab\plab,\noeud\modelst\phi\\[1pt]
+\ltree,\tpath\modelst \phi 			& \mbox{ if } & \ltree,\tpath_{0}\modelst\phi \\[1pt] 
+\ltree,\tpath\modelst \neg \psi 		& \mbox{ if }
+&  \ltree,\tpath\not\modelst \psi \\[1pt] 
+\ltree,\tpath\modelst \psi \ou \psi'			& \mbox{ if } & \ltree,\tpath \modelst \psi \mbox{ or }\ltree,\tpath\modelst \psi' \\[1pt] 
+\ltree,\tpath\modelst \X\psi 				& \mbox{ if } & \ltree,\tpath_{\geq 1}\modelst \psi \\[1pt] 
+\ltree,\tpath\modelst \psi\until\psi' 		& \mbox{ if }
+& \exists\, i\geq 0 \mbox{ s.t.    }\ltree,\tpath_{\geq
+                                                                i}\modelst\psi' \text{ and }\\
+  & & \quad \forall j \text{ s.t. }0\leq j <i,\; \ltree,\tpath_{\geq j}\modelst\psi
+\end{array}
+\]
+%\endgroup
+\end{definition}
+
+We write $\ltree\modelst\phi$ for $\ltree,\racine\modelst\phi$,
+where $\racine$ is the root of $\ltree$.     Given a \KS $\KS$  and a
+\QCTLs formula $\phi$, we also write $\KS\modelst\phi$ if
+$\unfold[\KS]{\sstate}\modelst\phi$.
+
+\begin{theorem}
+  \label{theo-qctls}
+  The model-checking problem for \QCTLs is \kEXPTIME[k+1]-complete for
+  formulas of alternation depth $k$.
+\end{theorem}
+
+\subsection{Reduction to \QCTLs}
+\label{sec-reduction}
+
+We use a variant of the reductions presented
+in~\cite{DBLP:journals/iandc/LaroussinieM15,BMMRV17,DBLP:conf/csl/FijalkowMMR18,DBLP:conf/ijcai/BouyerKMMMP19},
+which transform instances of the model-checking problem for various strategic
+logics to (extensions of) \QCTLs.
+
+Let $(\CGS,\Phi)$ be an instance of the \SL
+model-checking problem, and assume without loss of generality that
+each strategy variable is quantified at most once in $\Phi$. We define an equivalent instance of the
+model-checking problem for \QCTLs.
+
+Define the \KS $\KS_{\CGS}\egdef(\setstates,\relation,\sstate_{\init},\lab')$ where
+\begin{itemize}
+\item $\setstates\egdef\{\sstate_{\pos} \mid \pos\in\setpos\}$,
+\item $\relation\egdef\{(\sstate_{\pos},\sstate_{\pos'})\mid
+  \exists\jmov\in\Mov^{\Agf} \mbox{ s.t. }\trans(\pos,\jmov)=\pos'\}
+  \subseteq \setstates^2$,
+  \item $\sstate_{\init}\egdef\sstate_{\pos_{\init}}$,
+\item $\lab'(\sstate_{\pos})\egdef\val(\pos)\union \{p_{\pos}\} \subseteq \APf \cup \APv$,
+\end{itemize}
+and $\sstate_{\pos}\egdef(\eqc{\obs_{1}},\ldots,\eqc{\obs_{n}},\pos) \in \prod_{i\in [n+1]}\setlstates_{i}$.
+
+
+For every finite play $\fplay=\pos_{0}\ldots\pos_{k}$, define
+the node $\noeud_{\fplay}\egdef \sstate_{\pos_{0}}\ldots \sstate_{\pos_{k}}$ in
+$\unfold[\KS_{\CGS}]{\sstate_{\pos_{0}}}$.  Note that the mapping
+$\fplay\mapsto\noeud_{\fplay}$ defines a bijection between the set
+of finite plays and the set of
+nodes in $\unfold[\KS_{\CGS}]{\sstate_{\init}}$.
+
+\halfline
+\head{Constructing the \QCTLs formulas $\tr[f]{\phi}$}
+ We now describe how to transform an \SLref formula $\phi$ and a partial
+function $f:\Agf \partialto  \Varf$ into a \QCTLs
+formula $\tr[f]{\phi}$ (that will also depend on $\CGS$).
+Suppose that $\Mov=\{\mov_{1},\ldots,\mov_{\maxmov}\}$, and define
+$\tr[f]{\phi}$ and $\trp[f]{\psi}$ by mutual induction on state and path formulas. 
+The base cases are as follows:
+$\tr[f]{p} 		 \egdef p$ and $\trp[f]{\phi} \egdef
+\tr[f]{\phi}$. Boolean and temporal operators are simply obtained by
+distributing the translation:
+$\tr[f]{\neg \phi} 	 \egdef \neg \tr[f]{\phi}$, $\trp[f]{\neg
+  \psi} \egdef \neg \trp[f]{\psi}$,
+$\tr[f]{\phi_1\ou\phi_2}  \egdef \tr[f]{\phi_1}\ou\tr[f]{\phi_2}$,
+$\trp[f]{\psi_1\ou\psi_2}  \egdef \trp[f]{\psi_1}\ou\trp[f]{\psi_2}$,
+$\trp[f]{\X\psi}  \egdef \X\trp[f]{\psi}$ and $\trp[f]{\psi_1\until\psi_2}  \egdef \trp[f]{\psi_1}\until\trp[f]{\psi_2}$.
+
+
+% \begin{align*}
+% \tr[f]{p} 		& \egdef p  \\
+% \tr[f]{\neg \phi} 	& \egdef \neg \tr[f]{\phi}\\
+% \tr[f]{\phi_1\ou\phi_2} & \egdef \tr[f]{\phi_1}\ou\tr[f]{\phi_2}. \\
+% \end{align*}
+%where $f_i$ is defined to be $f$ restricted to domain $\freeFun{\phi_i} \cap \Agf$.
+We continue with the strategy quantifiers:
+\[
+  \begin{array}{lrl}
+& \tr[f]{\Estratnd\phi}	& \egdef  \exists
+                                  p_{\mov_{1}}^{\var}\ldots
+                                  \exists^{\trobs{\obs}}
+                                  p_{\mov_{\maxmov}}^{\var}. \phistrat
+                                  \et \tr[f]{\phi}\\[5pt]
+  \mbox{where} &  \phistrat & \egdef \A\always
+                              \bigou_{\mov\in\Mov}p_{\mov}^{\var},
+                              \quad\mbox{ and}\\[10pt]
+& \tr[f]{\Estratd\phi}	& \egdef  \exists
+                                  p_{\mov_{1}}^{\var}\ldots
+                                  \exists^{\trobs{\obs}}
+                                  p_{\mov_{\maxmov}}^{\var}. \phistratdet
+                                  \et \tr[f]{\phi}\\[5pt]
+  \mbox{where} & \phistratdet & \egdef
+\A\always\bigou_{\mov\in\Mov}(p_{\mov}^{\var}\et\biget_{\mov'\neq\mov}\neg
+p_{\mov'}^{\var}).                              
+\end{array}
+\]
+
+The intuition is that for each possible action $\mov\in\Mov$, an
+existential quantification on the atomic proposition $p_{\mov}^{\var}$
+``chooses'' for each  node $\noeud_{\fplay}$ of the tree 
+$\unfold[\KS_{\CGS}]{\sstate_{{\pos_0}}}$ whether strategy $\var$
+allows action $\mov$ in $\fplay$ or not. 
+$\phistrat$  checks that at least one action is allowed in each
+node, and thus that atomic propositions
+$p_{\mov}^{\var}$ indeed define a (nondeterministic) strategy.
+$\phistratdet$ instead ensures that \emph{exactly one} action is chosen for strategy $\var$  in each finite
+play, and thus that atomic propositions
+$p_{\mov}^{\var}$  characterise a
+deterministic strategy.
+
+For strategy refinement, the translation is as follows:
+\[\tr[f]{\var \refines \var'} \egdef \biget_{\mov\in\Mov} p_\mov^\var
+  \impl p_\mov^{\var'}.\]
+
+Here are the remaining cases:
+\[
+\begin{array}{lrl}
+& \tr[f]{\bind{\var}\phi}	& \egdef \tr[{f[\ag\mapsto \var]}]{\phi} \quad\quad
+                          \text{for }\var\in\Varf\union\{\unb\}  \\[5pt]
+\mbox{and} & \tr[f]{\Eout\psi}	& \egdef \E\,(\psiout[f] \wedge
+                                 \trp[f]{\psi}), \mbox{ where}
+\end{array}
+\]
+$\psiout[f]  \egdef \always
+  \bigou_{\pos\in\setpos}\left ( p_{\pos} \et \bigou_{\jmov\in\Mov^{\Agf}} 
+  \biget_{\ag\in\dom(f)}p_{\jmov_{\ag}}^{f(\ag)}\et \X\,
+                          p_{\trans(\pos,\jmov)}\right ).$
+
+
+$\psiout[f]$ checks that  each player $\ag$ in the domain of $f$
+follows the strategy coded by the $p_\act^{f(\ag)}$. 
+
+   
+To prove correctness of the translation, given a strategy $\strat$ and
+a strategy variable $\var$ we
+let  $\stratlab{\var}\egdef\{\plab[{p_\act^\var}]\mid
+\act\in\Act\}$ be the family of $p_\act^\var$-\labelings for tree
+$\unfold[\KS_{\CGS}]{}$ defined as follows: for each
+finite play $\fplay$ in $\CGS$ and $\act\in\Act$,
+we let $\plab[{p_\act^\var}](\noeud_\fplay)\egdef1$ if $\act\in\strat(\fplay)$, 0 otherwise.
+For a \labeled tree $\ltree$ with same domain as
+$\unfold[\KS_{\CGS}]{}$ we write $\ltree\prodlab \stratlab{\var}$ for
+$\ltree\prodlab \plab[{p_{\act_1}^\var}]\prodlab\ldots\prodlab \plab[{p_{\act_\maxmov}^\var}]$.
+
+Given an infinite play $\iplay$ and a point $i\in\setn$, we also let
+$\tpath_{\iplay,i}$ be the infinite path in
+$\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}$ that starts in node
+$\noeud_{\iplay_{\leq i}}$ and is defined as
+$\tpath_{\iplay,i}\egdef\noeud_{\iplay_{\leq i}}\noeud_{\iplay_{\leq
+    i+1}}\noeud_{\iplay_{\leq i+2}}\ldots$
+
+Finally, we say that a partial   function $f:\Agf\partialto\Varf$ is
+\emph{compatible} with an assignment $\assign$ if
+ $\dom(\assign)\inter \Agf=\dom(f)$ and  for all $a \in \dom(f)$,  $\assign(a) = \assign(f(a))$.
+
+ \begin{proposition}
+   \label{prop-redux}
+   For every  state subformula $\phi$ and path subformula $\psi$ of
+   $\Phi$, finite play $\fplay$, infinite play $\iplay$, point
+   $i\in\setn$, for every  assignment $\assign$ variable-complete for
+   $\phi$ (resp. $\psi$) and
+partial   function $f:\Agf\partialto\Varf$ compatible with $\assign$, assuming
+   also that no $\var_i$ in $\dom(\assign)\inter \Varf=\{\var_1,\ldots,\var_k\}$ is
+ quantified in $\phi$ or $\psi$, we have
+   \begin{align*}
+\CGS,\assign,{\fplay}\models\phi && \mbox{iff} &&
+  \unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+  \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+  \stratlab[\assign(\var_k)]{\var_k},\noeud_{\fplay} \modelst
+                                                              \tr[f]{\phi}\\
+\CGS,\assign,{\iplay},i\models\psi && \mbox{iff} &&
+  \unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+  \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+  \stratlab[\assign(\var_k)]{\var_k},\tpath_{\iplay,i} \modelst
+  \trp[f]{\psi}     
+   \end{align*}
+
+  In addition, $\KS_{\CGS}$ is of size linear in
+$|\CGS|$, and $\tr[f]{\phi}$ and $\trp[f]{\psi}$ are of size linear in $|\CGS|^2+|\phi|$.
+ \end{proposition}
+
+ \begin{proof}
+   The proof is by induction on $\phi$.
+We detail the cases for binding,  strategy quantification and
+outcome quantification, the others follow simply by definition of
+$\KS_{\CGS}$ for atomic propositions and induction hypothesis for
+remaining cases.
+
+\halfline
+For $\phi=\bind{\var}\phi'$, we have
+$\CGS,\assign,{\fplay}\models\bind{\var}\phi'$ if and only if 
+$\CGS,\assign[\ag\mapsto\assign(\var)],{\fplay}\models\phi'$.
+The result follows by using the induction hypothesis with assignment
+$\assign[\ag\mapsto\var]$ and function
+ $f[a\mapsto\var]$. This is possible because $f[a\mapsto\var]$ is compatible with $\assign[\ag\mapsto\var]$: indeed
+ $\dom(\assign[\ag\mapsto\var])\inter\Agf$ is equal to
+ $\dom(\assign)\inter\Agf \union \{a\}$ which, by assumption, is equal
+ to $\dom(f) \union \{a\}=\dom(f[a\mapsto
+ \var])$. Also
+ by assumption, for all $a'\in\dom(f)$, $\assign(a')=\assign(f(a'))$, and 
+by definition $\assign[a\mapsto \assign(\var)](a)=\assign(\var)=\assign(f[a\mapsto\var](a))$.
+
+
+\halfline
+For $\phi=\Estratnd\phi'$, assume first that
+$\CGS,\assign,{\fplay}\models\Estratnd\phi'$. There exists a
+nondeterministic strategy $\strat$ such that
+% \[\CGS,\assign[\var\mapsto \strat],\fplay\models \phi'.\] Since $f$ is
+% compatible with $\assign$, it is also compatible with assignment
+% $\assign'=\assign[\var\mapsto \strat]$. By assumption, no variable in
+% $\{\var_1,\ldots,\var_k\}$ is quantified in $\phi$, so that $\var\neq
+% \var_i$ for all $i$, and thus $\assign'(\var_i)=\assign(\var_i)$ for
+% all $i$; and because no strategy variable is
+% quantified twice in a same formula,
+% $\var$ is not quantified in $\phi'$, so that no variable in
+% $\{\var_1,\ldots,\var_k,\var\}$ is quantified in $\phi'$.
+% By induction hypothesis 
+%   \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign'(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign'(\var_k)]{\var_k}\prodlab   \stratlab[\assign'(\var)]{\var},\noeud_{\fplay}
+%   \modelst \tr[f]{\phi'}.\]
+
+%   Because $\strat$ is $\obs$-uniform, each
+%   $\plab[{p_\act^\var}]\in\stratlab{\var}=\stratlab[\assign'(\var)]{\var}$ is $\trobs{\obs}$-uniform,
+%   and it follows that   \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign'(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign'(\var_k)]{\var_k},\noeud_{\fplay}
+%   \modelst \exists^{\trobs{\obs}} p_{\mov_{1}}^{\var}\ldots
+%   \exists^{\trobs{\obs}}
+%   p_{\mov_{\maxmov}}^{\var}. \phistrat\et\tr[f]{\phi'}.\]
+% Finally, since $\assign'(\var_i)=\assign(\var_i)$ for all $i$, we
+% conclude that 
+% \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign(\var_k)]{\var_k},\noeud_{\fplay}
+%   \modelst \tr[f]{\Estrato{\obs}\phi'}.\]
+
+% For the other direction, assume
+% that
+% \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign(\var_k)]{\var_k},\noeud_{\fplay} \modelst
+%   \tr[f]{\phi},\] and recall that
+% $\tr[f]{\phi}=\exists^{\trobs{\obs}} p_{\mov_{1}}^{\var}\ldots
+% \exists^{\trobs{\obs}}
+% p_{\mov_{\maxmov}}^{\var}. \phistrat\et\tr[f]{\phi'}$.  Write
+% $\ltree=\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+% \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+% \stratlab[\assign(\var_k)]{\var_k}$. There exist
+% $\trobs{\obs}$-uniform $\plab[{p_\act^\var}]$-\labelings such that
+% \[\ltree\prodlab  \plab[{p_{\act_1}^\var}]\prodlab\ldots\prodlab \plab[{p_{\act_\maxmov}^\var}]
+%   \modelst \phistrat\et\tr[f]{\phi'}.\]
+% By $\phistrat$, these \labelings  
+%  code for a strategy $\strat$, and because they are
+%  $\trobs{\obs}$-uniform, $\strat$ is $\obs$-uniform. Let
+%  $\assign'=\assign[\var\mapsto \strat]$. For all $1\leq i\leq k$, by
+%  assumption $\var\neq \var_i$, and thus $\assign'(\var_i)=\assign(\var_i)$.
+%  The above can thus be rewritten
+%  \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+% \stratlab[\assign'(\var_1)]{\var_1}\prodlab\ldots \prodlab
+% \stratlab[\assign'(\var_k)]{\var_k}\prodlab  \stratlab[\assign'(\var)]{\var}
+%   \modelst \phistrat\et\tr[f]{\phi'}.\]
+%  By induction hypothesis we have
+% $\CGS,\assign[\var\mapsto
+% \strat],\fplay\models \phi'$, hence $\CGS,\assign,\fplay\models
+% \Estrato{\obs}\phi'$.
+
+% \halfline
+% For $\phi=\Eout\psi$,
+% assume first that $\CGS,\assign,{\fplay}\models\E\psi$. 
+% There exists a play $\iplay\in\out(\assign,\fplay)$ such that
+% $\CGS,\assign,\iplay,|\fplay|-1\modelsSL \psi$. By induction
+% hypothesis,
+% $\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign(\var_k)]{\var_k},\tpath_{\iplay,|\fplay|-1} \modelst
+%   \trp[f]{\psi}$. Since $\iplay$ is an outcome of $\assign$, each agent $a\in\dom(\assign)\inter\Agf$ 
+% follows strategy $\assign(a)$ in $\iplay$.
+% Because  $\dom(\assign)\inter \Agf=\dom(f)$ and for all $a \in \dom(f)$,
+%   $\assign(a) = \assign(f(a))$, each agent $a\in\dom(f)$ follows
+% the  strategy $\assign(f(a))$, which is coded by atoms
+% $p_\mov^{f(\ag)}$ in the translation of $\Phi$. Therefore $\tpath_{\iplay,|\fplay|-1}$ also
+% satisfies $\psiout$, hence $\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign(\var_k)]{\var_k},\tpath_{\iplay,|\fplay|-1} \modelst
+%   \psiout \et   \trp[f]{\psi}$, and we are done.
+
+%   For the other direction, assume that 
+%   $\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign(\var_k)]{\var_k},\noeud_\fplay \modelst
+%   \E(\psiout[f] \et   \trp[f]{\psi})$.
+% There exists a path $\tpath$ in $\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
+%   \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
+%   \stratlab[\assign(\var_k)]{\var_k}$ starting in
+% node $\noeud_\fplay$ that satisfies both $\psiout[f]$ and $\trp[f]{\psi}$.
+% By construction of $\KS_{\CGS}$ there exists an infinite play $\iplay$
+% such that $\iplay_{\leq |\fplay|-1}=\fplay$ and $\tpath=\tpath_{\iplay,|\fplay|-1}$.
+% By induction hypothesis, $\CGS,\assign,\iplay,|\fplay|-1 \modelsSL \psi$.
+% Because $\tpath_{\iplay,|\fplay|-1}$ satisfies $\psiout[f]$, $\dom(\assign)\inter \Agf=\dom(f)$, and for all $a \in \dom(f)$,
+%   $\assign(a) = \assign(f(a))$, it is also the case that
+%   $\iplay\in\out(\assign,\fplay)$, 
+% hence  $\CGS,\assign,\fplay \modelsSL \Eout\psi$.
+
+% The size of $\KS_{\CGS}$, $\tr[f]{\phi}$ and $\trp[f]{\psi}$ are easily verified.
+
+%$\tr[f]{\Estrato{\obs}\phi}$ is of size
+% $O(|\CGS|^k+|\tr[f]{\phi}|)$, with $k=1$ for nondeterministic
+% strategies and $k=2$ for deterministic ones.
+% and it is of size $O(|\setpos|\times |\Act|^{|\Agf|}\times
+% |\Agf|)\leq O(|\CGS|\times |\Agf|) \leq O(|\CGS|^2)$.
+% $\tr[f]{\Eout\psi}$ is thus of size $O(|\CGS|^2+\trp[f]{\psi})$.
+ \end{proof}
+ 
+ Applying Proposition~\ref{prop-redux} to the sentence $\Phi$, $\fplay=\pos_\init$, any assignment $\assign$, and
+ the empty function $\emptyset$, we get:
+ \[\CGS \models \Phi \quad \mbox{if and only if}\quad
+\unfold[\KS_{\CGS}]{} \models
+ \tr[\emptyset]{\Phi}.\]
+
+
+  
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

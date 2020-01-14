@@ -1,0 +1,22 @@
+
+\ifdraft
+\newcommand\modedraft[1]{#1}
+\newcommand{\showversion}{\textcolor{red}{\footnotesize\begin{center}\textbf{Version of \today~(\currenttime)}\end{center}}}
+%\newcommand\todo[1]{{\color{purple} [\textbf{To do:} #1]}}
+\newcommand\bam[1]{\marginpar[{\color{purple}\small\dbend}]{\color{purple}\small\dbend}{\footnotesize \color{purple}[#1 - \textbf{Bastien}]}}
+\renewcommand\gg[1]{\marginpar[{\color{blue}\small\dbend}]{\color{blue}\small\dbend}{\footnotesize \color{blue}[#1 - \textbf{Giuseppe}]}}
+\newcommand\nm[1]{\marginpar[{\color{olive}\small\dbend}]{\color{olive}\small\dbend}{\footnotesize \color{olive}[#1 - \textbf{Nello}]}}
+\newcommand\bmchanged[1]{{\color{purple}{#1}}}
+\newcommand\ggchanged[1]{{\color{blue}{#1}}}
+\newcommand\nmchanged[1]{{\color{orange}{#1}}}
+\else
+\newcommand\modedraft[1]{}
+%\newcommand\todo[1]{}
+\newcommand\bam[1]{}
+\renewcommand\gg[1]{}
+\newcommand\nm[1]{}
+\newcommand\bmchanged[1]{#1}
+\newcommand\ggchanged[1]{#1}
+\newcommand\nmchanged[1]{#1}
+\newcommand{\showversion}{}
+\fi
