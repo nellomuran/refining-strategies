@@ -146,6 +146,8 @@ where $\racine$ is the root of $\ltree$.     Given a \KS $\KS$  and a
 \QCTLs formula $\phi$, we also write $\KS\modelst\phi$ if
 $\unfold[\KS]{\sstate}\modelst\phi$.
 
+\bam{define alternation depth}
+
 \begin{theorem}
   \label{theo-qctls}
   The model-checking problem for \QCTLs is \kEXPTIME[k+1]-complete for
@@ -164,6 +166,8 @@ Let $(\CGS,\Phi)$ be an instance of the \SL
 model-checking problem, and assume without loss of generality that
 each strategy variable is quantified at most once in $\Phi$. We define an equivalent instance of the
 model-checking problem for \QCTLs.
+
+\bam{say that the reduction preserves alternation depth}
 
 Define the \KS $\KS_{\CGS}\egdef(\setstates,\relation,\sstate_{\init},\lab')$ where
 \begin{itemize}
