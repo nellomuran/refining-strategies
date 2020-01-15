@@ -234,12 +234,14 @@
 \newcommand{\fplay}{\rho}
 \newcommand{\iplay}{\pi}
 \newcommand{\strat}{\sigma}
+\newcommand{\substrat}[2][\fplay]{{#2}_{|#1}}
 \newcommand{\out}{\textnormal{Out}}
 \newcommand{\play}{\out}
 \newcommand{\class}{\mathcal C}
 \newcommand{\obseq}[1][\obs]{\sim_{#1}}
 \newcommand{\infset}[1][\ag]{I^{#1}}
-%\newcommand{\FPlay}{\text{Plays}}
+% \newcommand{\FPlay}{\text{Plays}}
+\newcommand{\setcontinuations}[1]{\text{Cont}(#1)}
 \newcommand{\eqc}[2][\pos]{[#1]_{#2}}
 
 \newcommand{\setstrat}{\mbox{\emph{Str}}}
@@ -272,7 +274,7 @@
 %% SL operators
 
 \newcommand{\determin}{\text{d}}
-\newcommand{\nondetermin}{\text{nd}}
+\newcommand{\nondetermin}{{}}
 \newcommand{\gen}{\text{ty}}
 \newcommand{\Estratd}[1][\var]{\exists^\determin #1\,}
 \newcommand{\Astratd}[1][\var]{\forall^\determin #1\,}

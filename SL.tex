@@ -41,9 +41,9 @@ $\Varf$, a finite non-empty set of \emph{variables}.
   \phi\egdef &\; p 
   \mid \neg \phi 
   \mid \phi\ou\phi 
-               \mid \Estratd\phi  
                \mid \Estratnd\phi
-               \mid \var \refines \var'
+               \mid \Estratd\phi  
+               \mid \var \refines \varb
                \mid \bind{\var}\phi
 %               \mid \unbind\phi
   \mid \Eout\psi               
@@ -54,9 +54,8 @@ $\Varf$, a finite non-empty set of \emph{variables}.
                    \mid \X \psi
                    \mid  \psi \until \psi
     \end{align*}
-     where % $p$ is an atomic proposition, $\var$ is a
- % variable, $\obs$ is an observation and $\ag$ is a player.
-  $p\in\APf$, $\var\in\Varf$ and $a\in\Agf$.
+     where 
+  $p\in\APf$, $\var,\varb\in\Varf$ and $a\in\Agf$.
 \end{definition}
 
 Formulas of type $\phi$ are called \emph{state formulas}, those of type $\psi$
@@ -64,14 +63,14 @@ are called \emph{path formulas}, and \SLref consists of all state formulas.
 
 
 Temporal operators, $\X$ (next) and
- $\until$ (until), have the usual meaning. Our new \emph{refinement
+ $\until$ (until), have the usual meaning. The \emph{refinement
    operator} expresses that the strategy denoted by a variable $\var$ is more
- restrictive than another one, or that it allows less behaviours: $\var\refines\var'$ reads as ``strategy
- $\var$ refines strategy $\var'$. The two \emph{strategy
-   quantifiers}  $\Estratd$ and $\Estratnd$ quantify on deterministic
- and nondeterministic strategies, respectively: $\Estratd\phi$
- (resp. $\Estratnd\phi$) reads as ``there exists a deterministic
- (resp. nondeterministic) strategy $\var$
+ restrictive than another one, or that it allows less behaviours: $\var\refines\varb$ reads as ``strategy
+ $\var$ refines strategy $\varb$. The two \emph{strategy
+   quantifiers}  $\Estratnd$ and $\Estratd$ quantify on nondeterministic
+ and deterministic strategies, respectively: $\Estratnd\phi$
+ (resp. $\Estratd\phi$) reads as ``there exists a nondeterministic
+ (resp. deterministic) strategy $\var$
   such that $\phi$
  holds'', where $\var$ is a strategy variable. 
 As usual, the \emph{binding operator} $\bind{\var}$ assigns a strategy to an
@@ -92,7 +91,7 @@ $\phi\equivaut\phi'\egdef \phi\impl\phi'\et \phi'\impl\phi$,
  $\F\phi \egdef \top \until \phi$,  and $\always\phi \egdef \neg \F
 \neg \phi$. In addition we
 define the universal variants of the two strategy quantifiers:  let
-$\Astratd\phi\egdef\neg\Estratd\neg\phi$ and $\Astratnd\phi\egdef\neg\Estratnd\neg\phi$.
+ $\Astratnd\phi\egdef\neg\Estratnd\neg\phi$ and $\Astratd\phi\egdef\neg\Estratd\neg\phi$.
 
 % %\todo{see if still necessary; if so, adapt}
 For every formula $\phi\in\SLref$, we let  $\free(\phi)$ be the set of variables that appear
@@ -140,17 +139,38 @@ A \emph{finite} (resp. \emph{infinite}) \emph{play} is a finite (resp. infinite)
 word $\fplay=\pos_{0}\ldots \pos_{n}$ (resp. $\iplay=\pos_{0} \pos_{1}\ldots$)
 such that $\pos_0=\pos_\init$ and for every $i$ such that $0\leq i<|\fplay|-1$ (resp. $i\geq 0$), there exists a joint action $\jmov$
 such that $\trans(\pos_{i}, \jmov)=\pos_{i+1}$.
+Given two finite plays $\fplay$ and $\fplay'$, we say that $\fplay'$
+is a \emph{continuation} of $\fplay$ if $\fplay'\in\fplay\cdot
+\setpos^*$, and we write $\setcontinuations{\fplay}$ for the set of
+continuations of $\fplay$.
 
- \halfline
- \head{Strategies}
-A (nondeterministic) \emph{strategy} is a  function $\strat:\setpos^+
-\to 2^\Mov\setminus\emptyset$ that maps each finite play to a nonempty finite set of
-actions that the player may play.  A strategy $\strat$ is \emph{deterministic} if for all $\fplay$,
-$\strat(\fplay)$ is a singleton.
-We let $\setstrat$  denote the set of all
-(nondeterministic) strategies, and $\setstratd\subset\setstrat$ the
-set of deterministic ones.
+\halfline \head{Strategies} A (nondeterministic) \emph{strategy} is a
+function
+$\strat:\setcontinuations{\pos_\init}\to 2^\Mov\setminus\emptyset$
+that maps each finite play in $\CGS$ to a nonempty finite set of
+actions that the player may play.  A strategy $\strat$ is
+\emph{deterministic} if for every finite play $\fplay$,
+$\strat(\fplay)$ is a singleton.  We let $\setstrat$ denote the set of
+all (nondeterministic) strategies, and $\setstratd\subset\setstrat$
+the set of deterministic ones (note that these sets depend on the \CGS
+under consideration).
 
+Formulas of \SLref will be evaluated at the end of a finite play
+$\fplay$ (which can be simply the initial position of the game). And
+since our logic contains only \emph{future-time} temporal operators,
+the only relevant part of a strategy $\strat$ when evaluating  a
+formula after finite play $\fplay$ is its definition on continuations
+of $\fplay$. We thus define the \emph{restriction} of $\strat$ to
+$\fplay$ as the restriction of $\strat$ to $\fplay\cdot\setpos^+$, that we
+write $\substrat{\strat}:\setcontinuations{\fplay}\to 2^\Mov\setminus\emptyset$.
+We will then say that a strategy $\strat$ refines another strategy
+$\strat'$ after a finite play $\fplay$ if the first one is more
+restrictive than the second one on continuations of $\fplay$. More formally:
+
+\begin{definition}
+  Strategy $\strat$ \emph{refines} strategy $\strat'$  after finite
+  play $\fplay$ if, for every  $\fplay'\in\setcontinuations{\fplay}$, $\substrat{\strat}(\fplay')\subseteq \substrat{\strat'}(\fplay')$.
+\end{definition}
 
 % \halfline
 % \head{Assignments} 
@@ -183,7 +203,7 @@ assigned by $\assign$. Formally,
  $\pos_{0}=\last(\fplay)$.
  
 
-\begin{definition}[\SLi semantics]
+\begin{definition}%[\SLi semantics]
 \label{def-SLi-semantics}
 The semantics of a state formula is defined on a \CGS $\CGS$, an
 assignment  $\assign$ that is variable-complete for $\phi$, and a
@@ -198,12 +218,20 @@ definition by mutual induction is as follows:
  \CGS,\assign,\fplay\modelsSL \phi\ou\phi' & \text{if} &
   \CGS,\assign,\fplay\modelsSL\phi \;\text{ or }\;
   \CGS,\assign,\fplay\modelsSL\phi' \\[1pt]
- \CGS,\assign,\fplay\modelsSL\Estratd\phi  & \text{if} & 
-\exists\,   \strat\in\setstratd \;\text{s.t.} \;
-                                                           \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL \phi\\[1pt]
  \CGS,\assign,\fplay\modelsSL\Estratnd\phi  & \text{if} & 
 \exists\,   \strat\in\setstratnd \;\text{s.t.} \;
-    \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL \phi\\[1pt]  
+                                                          \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL
+                                                          \phi\\[1pt]
+   \CGS,\assign,\fplay\modelsSL\Estratd\phi  & \text{if} & 
+\exists\,   \strat\in\setstratd \;\text{s.t.} \;
+                                                           \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL
+                                                         \phi\\[1pt]
+   \CGS,\assign,\fplay\modelsSL \var\refines\varb & \text{if} &
+                                                              \assign(\var)
+                                                              \mbox{
+                                                              refines
+                                                                }\assign(\varb)
+  \mbox{ after }\fplay\\[1pt]
  \CGS,\assign,\fplay\modelsSL \bind{\var}\phi & \text{if} &
  \CGS,\assign[\ag\mapsto\assign(\var)],\fplay\modelsSL \phi\\[1pt]  
  % \CGS,\assign,\fplay\modelsSL \bind{\unb}\phi & \text{if} &
@@ -235,8 +263,8 @@ definition by mutual induction is as follows:
 
 To model check \SLref we extend the classic approach, which is to
 reduce to \QCTLs, the extension of \CTLs with (second-order monadic) quantification on atomic
-propositions. This logic being equivalent to MSO on infinite
-trees~\cite{DBLP:journals/corr/LaroussinieM14}, it is  easy to
+propositions. This logic is equivalent to MSO on infinite
+trees~\cite{DBLP:journals/corr/LaroussinieM14}, and it is  easy to
 express that a strategy (or the atomic propositions that code for it)
 refines another one.
 
