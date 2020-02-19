@@ -7,30 +7,12 @@ strategy refines another.
 We first fix some basic notations.
 
 
-\subsection{Notations}
-Let $\Sigma$ be an alphabet. A \emph{finite} (resp. \emph{infinite}) \emph{word} over $\Sigma$ is an element
-of $\Sigma^{*}$ (resp. $\Sigma^{\omega}$). 
-The \emph{length} of a finite word $w=w_{0}w_{1}\ldots
-w_{n}$ is $|w|\egdef n+1$, and $\last(w)\egdef w_{n}$ is its last
-letter.
-Given a finite (resp. infinite) word $w$ and $0 \leq i < |w|$  (resp. $i\in\setn$), we let $w_{i}$ be the
-letter at position $i$ in $w$, $w_{\leq i}$ is the prefix of $w$ that
-ends at position $i$ and $w_{\geq i}$ is the suffix that starts
-at position $i$.
-%If $w$ is infinite, we let $w^{i}\egdef w[i,\omega]$.
-We write $w\pref w'$ if $w$ is a prefix of $w'$, and $\FPref{w}$ is
-the set of finite prefixes of word $w$. 
-Finally, 
-%$\id$ is the identity relation on the set $X$, 
-the domain of a mapping $f$ is written $\dom(f)$.
 
  \subsection{Syntax}
  \label{sec-SL-definition}
 
-For convenience we fix for the rest of the paper $\APf$, a finite non-empty set of
-\emph{atomic propositions}, $\Agf$, a finite non-empty set of \emph{agents} or
-\emph{players}, and
-$\Varf$, a finite non-empty set of \emph{variables}.
+In addition to the sets of propositions $\APf$ and agents $\Agf$, we
+now fix $\Varf$, a finite non-empty set of \emph{variables}.
 
 
 
@@ -42,7 +24,7 @@ $\Varf$, a finite non-empty set of \emph{variables}.
   \mid \neg \phi 
   \mid \phi\ou\phi 
                \mid \Estratnd\phi
-               \mid \Estratd\phi  
+%               \mid \Estratd\phi  
                \mid \var \refines \varb
                \mid \bind{\var}\phi
 %               \mid \unbind\phi
@@ -66,11 +48,12 @@ Temporal operators, $\X$ (next) and
  $\until$ (until), have the usual meaning. The \emph{refinement
    operator} expresses that the strategy denoted by a variable $\var$ is more
  restrictive than another one, or that it allows less behaviours: $\var\refines\varb$ reads as ``strategy
- $\var$ refines strategy $\varb$''. The two \emph{strategy
-   quantifiers}  $\Estratnd$ and $\Estratd$ quantify on nondeterministic
- and deterministic strategies, respectively: $\Estratnd\phi$
- (resp. $\Estratd\phi$) reads as ``there exists a nondeterministic
- (resp. deterministic) strategy $\var$
+ $\var$ refines strategy $\varb$''. The  \emph{strategy
+   quantifier}  $\Estratnd$  has its usual meaning, except that it now
+ quantifies on \emph{nondeterministic}
+ strategies: $\Estratnd\phi$
+ reads as ``there exists a nondeterministic
+ strategy $\var$
   such that $\phi$
  holds'', where $\var$ is a strategy variable. 
 As usual, the \emph{binding operator} $\bind{\var}$ assigns a strategy to an
@@ -88,10 +71,9 @@ Finally, the \emph{outcome quantifier} $\Eout$ quantifies on
 
 We use usual abbreviations $\top\egdef p\ou\neg p$, $\perp\egdef\neg\top$, $\phi\impl\phi'\egdef \neg \phi \ou \phi'$,
 $\phi\equivaut\phi'\egdef \phi\impl\phi'\et \phi'\impl\phi$,
- $\F\phi \egdef \top \until \phi$,  and $\always\phi \egdef \neg \F
-\neg \phi$. In addition we
-define the universal variants of the two strategy quantifiers:  let
- $\Astratnd\phi\egdef\neg\Estratnd\neg\phi$ and $\Astratd\phi\egdef\neg\Estratd\neg\phi$.
+ $\F\phi \egdef \top \until \phi$,   $\always\phi \egdef \neg \F
+\neg \phi$ and
+ $\Astratnd\phi\egdef\neg\Estratnd\neg\phi$. % and $\Astratd\phi\egdef\neg\Estratd\neg\phi$.
 
 % %\todo{see if still necessary; if so, adapt}
 For every formula $\phi\in\SLref$, we let  $\free(\phi)$ be the set of variables that appear
@@ -104,75 +86,10 @@ number of symbols in $\phi$.
 \subsection{Semantics}
 \label{sec-SLmodels}
 
-The models of \SLref are the usual models of Strategy Logic, \ie concurrent game structures. 
-
-\begin{definition}%[\CGS]
-  \label{def-CGS}
-  A \emph{concurrent game structure} (or
-  \CGS) is a tuple
-  $\CGS=(\Act,\setpos,\trans,\val,\pos_\init)$ where
-   \begin{itemize}
-    % \item $\APf$ is a finite non-empty set of \emph{atomic propositions},
-    % \item  $\Agf$ is a finite non-empty set of \emph{players},
-    \item $\Act$ is a finite non-empty set of \emph{actions},
-    \item $\setpos$ is a finite non-empty set of \emph{positions},
-   \item $\trans:\setpos\times \Mov^{\Agf}\to \setpos$ is a \emph{transition function}, 
-  \item $\val:\setpos\to 2^{\APf}$ is a \emph{labelling function}, and
-  \item $\pos_\init \in \setpos$ is an \emph{initial position}.
-  \end{itemize}
-\end{definition}
-
-% We define the size $|\CGS|$ of a \CGS
-% $\CGS=(\Act,\setpos,\trans,\val,\pos_\init,\obsint)$ as the size of
-% an explicit encoding of the transition function: $|\CGS|\egdef
-% |\setpos|\times |\Act|^{|\Agf|}\times \lceil \log(|\setpos|)\rceil$.
-% We may  write $\pos\in\CGS$ for $\pos\in\setpos$.
-
-In a position $\pos\in\setpos$, where atomic propositions $\val(\pos)$
-hold, each player $\ag$ chooses an action $\mova\in\Mov$, 
-and the game proceeds to position
-$\trans(\pos, \jmov)$, where $\jmov\in \Mov^{\Agf}$ stands for the \emph{joint action}
-$(\mova)_{\ag\in\Agf}$. Given a joint action
-$\jmov=(\mova)_{\ag\in\Agf}$ and $\ag\in\Agf$, we let
-$\jmov_{\ag}$ denote $\mova$.
-A \emph{finite} (resp. \emph{infinite}) \emph{play} is a finite (resp. infinite)
-word $\fplay=\pos_{0}\ldots \pos_{n}$ (resp. $\iplay=\pos_{0} \pos_{1}\ldots$)
-such that $\pos_0=\pos_\init$ and for every $i$ such that $0\leq i<|\fplay|-1$ (resp. $i\geq 0$), there exists a joint action $\jmov$
-such that $\trans(\pos_{i}, \jmov)=\pos_{i+1}$.
-Given two finite plays $\fplay$ and $\fplay'$, we say that $\fplay'$
-is a \emph{continuation} of $\fplay$ if $\fplay'\in\fplay\cdot
-\setpos^*$, and we write $\setcontinuations{\fplay}$ for the set of
-continuations of $\fplay$.
-
-\halfline \head{Strategies} A (nondeterministic) \emph{strategy} is a
-function
-$\strat:\setcontinuations{\pos_\init}\to 2^\Mov\setminus\emptyset$
-that maps each finite play in $\CGS$ to a nonempty finite set of
-actions that the player may play.  A strategy $\strat$ is
-\emph{deterministic} if for every finite play $\fplay$,
-$\strat(\fplay)$ is a singleton.  We let $\setstrat$ denote the set of
-all (nondeterministic) strategies, and $\setstratd\subset\setstrat$
-the set of deterministic ones (note that these sets depend on the \CGS
-under consideration).
-
-Formulas of \SLref will be evaluated at the end of a finite play
-$\fplay$ (which can be simply the initial position of the game). And
-since our logic contains only \emph{future-time} temporal operators,
-the only relevant part of a strategy $\strat$ when evaluating  a
-formula after finite play $\fplay$ is its definition on continuations
-of $\fplay$. We thus define the \emph{restriction} of $\strat$ to
-$\fplay$ as the restriction of $\strat$ to $\fplay\cdot\setpos^+$, that we
-write $\substrat{\strat}:\setcontinuations{\fplay}\to 2^\Mov\setminus\emptyset$.
-We will then say that a strategy $\strat$ refines another strategy
-$\strat'$ after a finite play $\fplay$ if the first one is more
-restrictive than the second one on continuations of $\fplay$. More formally:
-
-\begin{definition}
-  Strategy $\strat$ \emph{refines} strategy $\strat'$  after finite
-  play $\fplay$ if, for every  $\fplay'\in\setcontinuations{\fplay}$, $\substrat{\strat}(\fplay')\subseteq \substrat{\strat'}(\fplay')$.
-\end{definition}
-
+ \SLref formulas are interpreted in a \CGS, and the semantics makes
+ use of the following additional notions.
 % \halfline
+
 % \head{Assignments} 
 An \emph{assignment}  $\assign:\Agf\union\Varf \partialto \setstrat$
 is a partial function that assigns a strategy  to
@@ -212,44 +129,44 @@ replaced with an infinite play $\iplay$ and an index $i\in\setn$. The
 definition by mutual induction is as follows:
 \[
 \begin{array}{lcl}
- \CGS,\assign,\fplay\modelsSL p & \text{if} & p\in\val(\last(\fplay))\\[1pt]
+ \CGS,\assign,\fplay\modelsSL p & \text{if} & p\in\val(\last(\fplay))\\[3pt]
  \CGS,\assign,\fplay\modelsSL \neg\phi & \text{if} &
-  \CGS,\assign,\fplay\not\modelsSL\phi\\[1pt]
+  \CGS,\assign,\fplay\not\modelsSL\phi\\[3pt]
  \CGS,\assign,\fplay\modelsSL \phi\ou\phi' & \text{if} &
   \CGS,\assign,\fplay\modelsSL\phi \;\text{ or }\;
-  \CGS,\assign,\fplay\modelsSL\phi' \\[1pt]
+  \CGS,\assign,\fplay\modelsSL\phi' \\[3pt]
  \CGS,\assign,\fplay\modelsSL\Estratnd\phi  & \text{if} & 
 \exists\,   \strat\in\setstratnd \;\text{s.t.} \;
                                                           \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL
-                                                          \phi\\[1pt]
-   \CGS,\assign,\fplay\modelsSL\Estratd\phi  & \text{if} & 
-\exists\,   \strat\in\setstratd \;\text{s.t.} \;
-                                                           \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL
-                                                         \phi\\[1pt]
+                                                          \phi\\[3pt]
+%    \CGS,\assign,\fplay\modelsSL\Estratd\phi  & \text{if} & 
+% \exists\,   \strat\in\setstratd \;\text{s.t.} \;
+%                                                            \CGS,\assign[\var\mapsto\strat],\fplay\modelsSL
+%                                                          \phi\\[3pt]
    \CGS,\assign,\fplay\modelsSL \var\refines\varb & \text{if} &
                                                               \assign(\var)
                                                               \mbox{
                                                               refines
                                                                 }\assign(\varb)
-  \mbox{ after }\fplay\\[1pt]
+  \mbox{ after }\fplay\\[3pt]
  \CGS,\assign,\fplay\modelsSL \bind{\var}\phi & \text{if} &
- \CGS,\assign[\ag\mapsto\assign(\var)],\fplay\modelsSL \phi\\[1pt]  
+ \CGS,\assign[\ag\mapsto\assign(\var)],\fplay\modelsSL \phi\\[3pt]  
  % \CGS,\assign,\fplay\modelsSL \bind{\unb}\phi & \text{if} &
- %          \CGS,\assign[\ag\mapsto\unb],\fplay\modelsSL \phi\\[1pt]
+ %          \CGS,\assign[\ag\mapsto\unb],\fplay\modelsSL \phi\\[3pt]
  \CGS,\assign,\fplay\modelsSL \Eout\psi & \text{if} & \exists\iplay \in
                                                          \out(\assign,\fplay)
                                                          \text{ s.t. }
   \\
   & &\quad   \CGS,\assign,\iplay,|\fplay|-1\modelsSL \psi\\[5pt]
     \CGS,\assign,\iplay,i\modelsSL \phi & \text{if} &
-                                                         \CGS,\assign,\iplay_{\leq i}\modelsSL\phi\\[1pt]
+                                                         \CGS,\assign,\iplay_{\leq i}\modelsSL\phi\\[3pt]
    \CGS,\assign,\iplay,i\modelsSL \neg\psi & \text{if} &
-  \CGS,\assign,\iplay,i\not\modelsSL\psi\\[1pt]
+  \CGS,\assign,\iplay,i\not\modelsSL\psi\\[3pt]
  \CGS,\assign,\iplay,i\modelsSL \psi\ou\psi' & \text{if} &
   \CGS,\assign,\iplay,i\modelsSL\psi \;\text{ or }\;
-  \CGS,\assign,\iplay,i\modelsSL\psi' \\[1pt]
+  \CGS,\assign,\iplay,i\modelsSL\psi' \\[3pt]
   \CGS,\assign,\iplay,i\modelsSL\X\psi & \text{if} &
-  \CGS,\assign,\iplay,i+1\modelsSL\psi\\[1pt]
+  \CGS,\assign,\iplay,i+1\modelsSL\psi\\[3pt]
 \CGS,\assign,\iplay,i\modelsSL\psi\until\psi' & \text{if} & \exists\, j\geq i
    \mbox{ s.t. }\CGS,\assign,\iplay,j\modelsSL \psi' \text{ and,}\\ 
    & & \forall\, k \text{ s.t. } i\leq k <j,
@@ -259,9 +176,44 @@ definition by mutual induction is as follows:
 \end{definition}
 
 
-\todop{example}
+We give some examples of useful notions that can be expressed in this
+logic. 
 
-To model check \SLref we extend the classic approach, which is to
+\begin{example}[Strategy equality]
+  First, it is easy to see that a strategy $\strat$ refines a strategy
+  $\strat'$ if $\strat \refines \strat'$ and
+  $\strat'\refines\strat$. We thus define the abbreviation
+  \[\var = \varb \quad := \quad \var \refines \varb \wedge \varb
+    \refines \var\]
+  We thus have that $\CGS,\assign,\fplay\models \var = \varb$ if, and
+  only if, $\substrat{\assign(\var)}=\substrat{\assign(\varb)}$. And in
+  particular, $\CGS,\assign,\pos_\init\models\var=\varb$ if, and only
+  if, $\assign(\var)=\assign(\varb)$.
+\end{example}
+
+\begin{example}[Deterministic strategies]
+  We can also express that a strategy, or its refinement to
+  continuations of the current finite play, is deterministic, with the
+  following formula:
+  \[\phidet \quad := \quad \forall \varb \; \varb \refines \var \impl \var\refines\varb\]
+\end{example}
+
+\begin{example}[Maximal permissive strategies]
+  Given a formula $\phi(\var)$ we can express that a strategy $\var$
+  is maximally permissive with regards to  $\phi(\var)$. Define formula $\maxperm(\var,\phi)$ as
+  follows:
+  \[\maxperm(\var,\phi) \quad := \quad \phi(\var) \wedge (\forall \varb \;
+    \var \refines \varb \impl \neg \phi(\varb))\]
+  For instance, if we have two antagonistic players $\ag$ and $\agb$,
+  and $\ag$ tries to ensure the safety property $\always p$, we can let $\phi(\var)=\forall \varc
+  \bind[\ag]{\var}\bind[\agb]{\varc}\always p$, and it then holds that
+  $\CGS,\assign,\pos_\init\models \maxperm(\var,\phi)$ if, and only
+  if, $\assign(\var)$ is a maximally permissive winning strategy for $\ag$.
+\end{example}
+
+
+We now turn to establishing that the model-checking problem for \SLref
+is decidable. To do so we extend the classic approach, which is to
 reduce to \QCTLs, the extension of \CTLs with (second-order monadic) quantification on atomic
 propositions. This logic is equivalent to MSO on infinite
 trees~\cite{DBLP:journals/corr/LaroussinieM14}, and it is  easy to

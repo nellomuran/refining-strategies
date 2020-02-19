@@ -214,7 +214,7 @@ $\trp[f]{\X\psi}  \egdef \X\trp[f]{\psi}$ and $\trp[f]{\psi_1\until\psi_2}  \egd
 % \tr[f]{\phi_1\ou\phi_2} & \egdef \tr[f]{\phi_1}\ou\tr[f]{\phi_2}. \\
 % \end{align*}
 %where $f_i$ is defined to be $f$ restricted to domain $\freeFun{\phi_i} \cap \Agf$.
-We continue with the strategy quantifiers:
+We continue with the strategy quantifier:
 \[
   \begin{array}{lrl}
 & \tr[f]{\Estratnd\phi}	& \egdef  \exists
@@ -223,16 +223,16 @@ We continue with the strategy quantifiers:
                                   p_{\mov_{\maxmov}}^{\var}. \phistrat
                                   \et \tr[f]{\phi}\\[5pt]
   \mbox{where} &  \phistrat & \egdef \A\always
-                              \bigou_{\mov\in\Mov}p_{\mov}^{\var},
-                              \quad\mbox{ and}\\[10pt]
-& \tr[f]{\Estratd\phi}	& \egdef  \exists
-                                  p_{\mov_{1}}^{\var}\ldots
-                                  \exists^{\trobs{\obs}}
-                                  p_{\mov_{\maxmov}}^{\var}. \phistratdet
-                                  \et \tr[f]{\phi}\\[5pt]
-  \mbox{where} & \phistratdet & \egdef
-\A\always\bigou_{\mov\in\Mov}(p_{\mov}^{\var}\et\biget_{\mov'\neq\mov}\neg
-p_{\mov'}^{\var}).                              
+                              \bigou_{\mov\in\Mov}p_{\mov}^{\var}
+%                               \quad\mbox{ and}\\[10pt]
+% & \tr[f]{\Estratd\phi}	& \egdef  \exists
+%                                   p_{\mov_{1}}^{\var}\ldots
+%                                   \exists^{\trobs{\obs}}
+%                                   p_{\mov_{\maxmov}}^{\var}. \phistratdet
+%                                   \et \tr[f]{\phi}\\[5pt]
+%   \mbox{where} & \phistratdet & \egdef
+% \A\always\bigou_{\mov\in\Mov}(p_{\mov}^{\var}\et\biget_{\mov'\neq\mov}\neg
+% p_{\mov'}^{\var}).                              
 \end{array}
 \]
 
@@ -244,10 +244,10 @@ allows action $\mov$ in $\fplay$ or not.
 $\phistrat$  checks that at least one action is allowed in each
 node, and thus that atomic propositions
 $p_{\mov}^{\var}$ indeed define a (nondeterministic) strategy.
-$\phistratdet$ instead ensures that \emph{exactly one} action is chosen for strategy $\var$  in each finite
-play, and thus that atomic propositions
-$p_{\mov}^{\var}$  characterise a
-deterministic strategy.
+% $\phistratdet$ instead ensures that \emph{exactly one} action is chosen for strategy $\var$  in each finite
+% play, and thus that atomic propositions
+% $p_{\mov}^{\var}$  characterise a
+% deterministic strategy.
 
 For strategy refinement, the translation is as follows:
 \[\tr[f]{\var \refines \varb} \egdef \A\always\biget_{\mov\in\Mov} p_\mov^\var
