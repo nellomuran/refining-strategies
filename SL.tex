@@ -189,6 +189,8 @@ logic.
   only if, $\substrat{\assign(\var)}=\substrat{\assign(\varb)}$. And in
   particular, $\CGS,\assign,\pos_\init\models\var=\varb$ if, and only
   if, $\assign(\var)=\assign(\varb)$.
+  We also let $\var \neq \varb := \neg (\var = \varb)$ and
+  $\var\refinesstr\varb := \var \refines \varb \wedge \var \neq \varb$.
 \end{example}
 
 \begin{example}[Deterministic strategies]
@@ -203,7 +205,7 @@ logic.
   is maximally permissive with regards to  $\phi(\var)$. Define formula $\maxperm(\var,\phi)$ as
   follows:
   \[\maxperm(\var,\phi) \quad := \quad \phi(\var) \wedge (\forall \varb \;
-    \var \refines \varb \impl \neg \phi(\varb))\]
+    \var \refinesstr \varb \impl \neg \phi(\varb))\]
   For instance, if we have two antagonistic players $\ag$ and $\agb$,
   and $\ag$ tries to ensure the safety property $\always p$, we can let $\phi(\var)=\forall \varc
   \bind[\ag]{\var}\bind[\agb]{\varc}\always p$, and it then holds that
