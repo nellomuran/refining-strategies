@@ -1,15 +1,23 @@
-% easychair.tex,v 3.5 2017/03/15
-
-%\documentclass{easychair}
-
-%%%% ijcai20.tex
-
-
 \documentclass{article}
 \pdfpagewidth=8.5in
 \pdfpageheight=11in
-% The file ijcai20.sty is NOT the same than previous years'
-\usepackage{ijcai20}
+
+\usepackage{kr}
+
+% Use the postscript times font!
+\usepackage{times}
+\usepackage{soul}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[small]{caption}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\urlstyle{same}
 
 \usepackage{hyperref}
 \usepackage{newunicodechar}
@@ -59,36 +67,22 @@
 \input{macros.sty}
 
 
-\title{Refining Strategies in Strategy Logic}
+\title{Nondeterministic Strategies and their Refinement in Strategy Logic}
 
 
 \author{
-% Giuseppe De Giacomo$^1$\and
-% Bastien Maubert$^2$\And
-%  Aniello Murano$^2$\\
-% 	\affiliations
-% 	$^1$Sapienza Università di Roma\\
-% 	$^2$Universit\`a degli Studi di Napoli Federico II\\
-% 	\emails
-% 	\{first, second\}@example.com,
-% 	third@other.example.com,
-% 	fourth@example.com
-% }
-%
-%%  \authorrunning{} has to be set for the shorter version of the authors' names;
-%% otherwise a warning will be rendered in the running heads. When processed by
-%% EasyChair, this command is mandatory: a document without \authorrunning
-%% will be rejected by EasyChair
-%
-%\authorrunning{B. Maubert, S. Pinchinat \& F. Schwarzentruber}
-%
-%% \titlerunning{} has to be set to either the main title or its shorter
-%% version for the running heads. When processed by
-%% EasyChair, this command is mandatory: a document without \titlerunning
-%% will be rejected by EasyChair
-%\titlerunning{Concurrent Games in Dynamic Epistemic Logic}
+ Giuseppe De Giacomo$^1$\and
+ Bastien Maubert$^2$\And
+  Aniello Murano$^2$\\
+ 	\affiliations
+ 	$^1$Sapienza Università di Roma\\
+ 	$^2$Universit\`a degli Studi di Napoli Federico II\\
+ 	\emails
+ 	degiacomo@diag.uniroma1.it,
+ 	bastien.maubert@gmail.com,
+ 	murano@na.infn.it
 }
-%\newcommand{\free}{*}
+
 
 \begin{document}
 
@@ -107,8 +101,7 @@ only safe executions,
  and a strategy refinement operator. We 
   show that model checking this logic can be done at 
 no additional  computational cost with respect to standard SL, and can
-be used to solve problems such as module checking, synthesis,
-synthesis under constraints, and more.
+be used to solve problems synthesis, synthesis of most permissive strategies, module checking, and more.
 \end{abstract}
 
 \section{Introduction}
@@ -126,6 +119,7 @@ synthesis under constraints, and more.
 
 \section{Strategy Logic with refinement}
 \label{section:SL}
+
 \input{SL.tex}
 
 % \section{Applications}
@@ -149,7 +143,7 @@ synthesis under constraints, and more.
 \label{section:mc}
 \input{mc.tex}
 
-\bibliographystyle{named}
+\bibliographystyle{kr}
 \bibliography{biblio}
 
 \end{document}
