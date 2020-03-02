@@ -1,21 +1,25 @@
-This paper is about nondeterministic strategies (aka plans or protocols), i.e., strategies that associate to the current history a \emph{set of alternative moves} (instead of one) all of which are ``good'' for the objective of the strategy.
+Nondeterministic strategies (aka plans or protocols), i.e., strategies that associate to the current history a \emph{set of alternative moves} (instead of one) all of which are ``good'' for the objective of the strategy.
 %%
 
 Nondeterministic strategies have been studied in literature in several
 context.
 %%
-Possibly the most relevant area is Discrete Event Control
-where a central notion is that of \emph{maximally permissive
-  supervisor} \cite{}. This is supervisor that controls a plant, i.e.,
-allows the plant to do only certain operations at each point in
-time. Note that this supervisor does not says exactly what to do to
-the plant (as a deterministic strategy) but in fact tries to leave as
-much freedom as possible to plant itself blocking only operations that
-are unsafe. In fact it is of interest to be \emph{maximally
-  permissive} wrt the plant. And indeed the central result of Discrete
-Control Theory is that such a maximally permissive supervisor, i.e.,
-nondeterministic strategy always exists if the plant and the
-supervisor specifications are expressed as regular languages.
+Possibly the most relevant area is Discrete Event Control where a
+central notion is that of \emph{maximally permissive supervisor}
+\cite{WonhamRamadge:SIAMJCO87,Cassandras:BOOK06_DES,Wo14}. This is
+supervisor that controls a plant, i.e., allows the plant to do only
+certain operations at each point in time. Note that this supervisor
+does not says exactly what to do to the plant (as a deterministic
+strategy) but in fact tries to leave as much freedom as possible to
+plant itself blocking only operations that are unsafe. In fact it is
+of interest to be \emph{maximally permissive} wrt the plant. And
+indeed the central result of Discrete Control Theory is that such a
+maximally permissive supervisor, i.e., nondeterministic strategy
+always exists if the plant and the supervisor specifications are
+expressed as regular languages. Such notion has attracted the interest
+of the reasoning about action community
+]\cite{DeGiacomoLM12,BanihashemiGL-AAMAS18} and the automather program
+synthesis community \cite{pnueli1989synthesisshort,EhlersLTV17}
 
 
 Another interesting case is that controllers that orchestrate several components to compose a desired global behaviror \cite{Sardina,Logan}. ONe way of seen this is that the controller tries to maintain overtime a sort of simulation relation between the desired behavior expressed as a triansition system and the cartesan product of the transitino systems of the components.
