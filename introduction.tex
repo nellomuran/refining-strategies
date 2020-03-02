@@ -12,24 +12,35 @@ certain operations at each point in time. Note that this supervisor
 does not says exactly what to do to the plant (as a deterministic
 strategy) but in fact tries to leave as much freedom as possible to
 plant itself blocking only operations that are unsafe. In fact it is
-of interest to be \emph{maximally permissive} wrt the plant. And
-indeed the central result of Discrete Control Theory is that such a
+of interest to be \emph{maximally permissive} wrt the plant. 
+Indeed the central result of Discrete Control Theory is that such a
 maximally permissive supervisor, i.e., nondeterministic strategy
 always exists if the plant and the supervisor specifications are
-expressed as regular languages. Such notion has attracted the interest
-of the reasoning about action community
-]\cite{DeGiacomoLM12,BanihashemiGL-AAMAS18} and the automather program
-synthesis community \cite{pnueli1989synthesisshort,EhlersLTV17}
+expressed as regular languages. Such a notion has attracted the interest
+of the reasoning about actions community
+]\cite{DeGiacomoLM12,BanihashemiGL-AAMAS18} and of the reactive program
+synthesis community \cite{pnueli1989synthesisshort,EhlersLTV17}.
 
 
-Another interesting case is that controllers that orchestrate several components to compose a desired global behaviror \cite{Sardina,Logan}. ONe way of seen this is that the controller tries to maintain overtime a sort of simulation relation between the desired behavior expressed as a triansition system and the cartesan product of the transitino systems of the components.
+Another interesting case is that controllers that orchestrate several components to compose a desired global behaviour \cite{DePS13,DeGiacomoVFAL18}. One way of seeing this is that the controller tries to maintain over time a sort of simulation relation between the desired behavior expressed as a transition system and the Cartesian product of the transitino systems of the components. Also in this case the notion of maximally permissive nondeterministic strategy arises \cite{DePS13}.
 
 
-Nondeterministic strategies are of interest in several context. For example, in planning when the action precondition specification can be seen as a nonseterministi strategywe specify a function that given the state of the domain returns a set of possible actions. Now if we consider the state as summary of the relavant part of the history we can see  
+Nondeterministic strategies are also of interest in planning \cite{GeffnerBo13}.  Action preconditions themselves can be though of as generating a nondeterministic strategy  as a function that given the state of the domain returns a set of possible actions. 
 
+Also module checking can be considered as dealing with nondeterministic strategies of the environment \cite{kupferman1997module,jamroga2014module} ....
 
-Although not as common as standard deterministic strategies, they are quite common
-
+An important problem is that of refining
+  such strategies. For instance, given a nondeterministic strategy
+  that allows only safe executions, refine it to, additionally,
+  eventually reach a desired state of affairs.  In this paper, we show that such
+  problems can be solved elegantly in the framework of Strategy Logic
+  (SL), a very expressive logic to reason about strategic
+  abilities \cite{chatterjee2010strategy,DBLP:journals/tocl/MogaveroMPV14,DBLP:conf/lics/MogaveroMS13,BMMRV17}. Specifically, we introduce a variant of SL with
+  nondeterministic strategies and a strategy refinement operator. We
+  show that model checking this logic can be done at no additional
+  computational cost with respect to standard SL, and can be used to
+  solve problems synthesis, synthesis of most permissive strategies,
+  module checking, and more.
 
 %%% Local Variables:
 %%% mode: latex
