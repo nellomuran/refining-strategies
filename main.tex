@@ -94,15 +94,16 @@
   all of which are winning.  An important problem is that of refining
   such strategies. For instance, given a nondeterministic strategy
   that allows only safe executions, refine it to, additionally,
-  eventually reach a desired state of affairs. We show that such
-  problems can be solved elegantly in the framework of Strategy Logic
+  eventually reach a desired state of affairs. We show that strategic
+  problems involving strategy refinement can be solved elegantly in the framework of Strategy Logic
   (SL), a very expressive logic to reason about strategic
-  abilities. Specifically, we introduce a variant of SL with
-  nondeterministic strategies and a strategy refinement operator. We
+  abilities. Specifically, we introduce an extension of SL with
+  nondeterministic strategies and an operator expressing  strategy refinement. We
   show that model checking this logic can be done at no additional
   computational cost with respect to standard SL, and can be used to
-  solve problems synthesis, synthesis of most permissive strategies,
-  module checking, and more.
+  solve a variety of problems such as  synthesis of most permissive
+  strategies or
+  refinement of Nash equilibria.
 \end{abstract}
 
 \section{Introduction}
@@ -116,7 +117,7 @@
 \input{nd-strat.tex}
 % \bam{put nondeterministic strategies and refinement here}
 
-\bam{maximal permissive strategies: look at litterature}
+
 
 \section{Strategy Logic with refinement}
 \label{section:SL}
