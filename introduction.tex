@@ -47,7 +47,43 @@ An important problem is that of refining
 \bam{Talk about controller synthesis (traditionally use
   nondeterministic strategies and
   look for maximal permissive ones)}  
+
+see:
+\begin{itemize}
+\item Julien Bernet, David Janin, and Igor Walukiewicz. Permissive
+  strategies:from parity games to safety games
+
+  $\rightarrow$ shows that in parity games we can compute winning nondeterministic
+  strategies that are more permissive than all memoryless winning strategies
+\item Patricia Bouyer, Marie Duflot, Nicolas Markey, and Gabriel
+  Renault. Measuring permissivity in finite games
+
+  $\rightarrow$ quantitative notion of permissiveness: to each action in
+  each state is associated a number representing the \emph{penalty}
+  incurred by a strategy that disallows this action. Permissiveness of
+  a strategy is then the supremum over all outcomes of the mean
+  penalty along this outcome.
   
+\item Patricia Bouyer, Nicolas Markey, Jörg Olschewski and Michael
+  Ummels. Measuring permissiveness inparity games: Mean-payoff parity
+  games revisited
+
+  $\rightarrow$ generalisation to parity games
+  
+\item Sophie Pinchinat and Stéphane Riedweg. You can always compute
+  maximally permissive controllers under partial observation when they
+  exist
+  
+$\rightarrow$   for branching mu-calculus
+
+  
+\item Michael Luttenberger. Strategy iteration using non-deterministic
+  strategies for solving parity games  
+
+$\rightarrow$ solving parity games with nondeterministic strategies
+
+\end{itemize}
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"

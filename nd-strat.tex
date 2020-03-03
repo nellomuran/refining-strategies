@@ -63,7 +63,14 @@ is a \emph{continuation} of $\fplay$ if $\fplay'\in\fplay\cdot
 \setpos^*$, and we write $\setcontinuations{\fplay}$ for the set of
 continuations of $\fplay$.
 
-\bam{say that CGS also capture turn-based}
+\begin{remark}
+  \label{rem-turn-based}
+  Recall that turn-based game structures are a special case of
+  concurrent game structures in which the state space is partitioned
+  between players, and in each position, only the actions of the
+  player to whom it belongs are meaningful while other agents' actions
+  are mute~\cite{DBLP:journals/jacm/AlurHK02}.
+\end{remark}
 
 \subsection{Strategy refinement}
 \label{sec-ndstrat}
