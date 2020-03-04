@@ -32,7 +32,8 @@ which first the environment chooses an input $i$, then the system chooses
 an output $o$, reaching a position labelled with atoms $i\cup o$ and in which it is
 the environment's turn to play. The LTL synthesis problem for $(I,O,\psi)$ can
 then be solved by model-checking the \SL formula $\exists x (S,x) \A
-\psi$ on $\CGS_{I,O}$. Note that this really solves the synthesis
+\psi$ on $\CGS_{I,O}$, where $\exists x$ is interpreted as
+quantification on deterministic strategies. Note that this really solves the synthesis
 problem as existing model-checking algorithms for Strategy Logic can
 synthesise  witness strategies (when they exist) for strategy variables existentially
 quantified at the beginning of the formula.
@@ -40,10 +41,90 @@ quantified at the beginning of the formula.
 \subsection{Nondeterministic synthesis}
 \label{sec-nd-synth}
 
+Considering nondeterministic strategies, as we do, does not change
+anything for classical \LTL synthesis. Indeed, the two interpretations of
+the formula $\exists x (S,x) \A \psi$ are equivalent: one direction
+holds because deterministic strategies are a particular case of
+nondeterministic ones, and the other direction holds because if there
+exists a nondeterministic strategy $\strat$ such that $(S,x)\A\psi$
+holds when $x$ is evaluated as $\strat$, then all outcomes of
+$[S\mapsto \strat]$ satisfy $\psi$, and it is thus also the case when $\strat$
+is replaced by any deterministic strategy $\strat'$ that refines
+$\strat$ and thus generates a subset of its outcomes.
 
+However it makes a difference if, instead of considering only
+universal satisfaction of an \LTL formula on all outcomes, we consider
+other forms of branching-time specifications, in particular
+specifications that require existence of outcomes satisfying different
+properties. For instance,
+$\phi=\exists x (S,x) (\E \always p \wedge \E \F \neg p)$ may be false in a
+given \CGS $\CGS$ with the deterministic semantics, and true with the
+nondeterministic one.  In particular, if $S$ is the only player in
+$\CGS$, then a deterministic strategy for $S$ induces a single outcome
+and thus $\phi$ is necessarily false with the deterministic
+interpretation; however it may hold if we allow for nondeterministic
+strategies, that allow for more behaviours: any strategy that allows
+for at least two outcomes, one where $p$ always holds, and one where
+it eventually does not hold, would do.
+
+Then we can combine the two kinds of specifications by  requiring the
+existence of behaviours satisfying some properties, while requiring
+that all  behaviours satisfy some other property.
+For instance, formula $\phi=\exists x (S,x) (\E \F p \wedge \E \F
+ q \wedge \A \always \F (p\vee q))$ asks that some behaviours 
+ reach $p$, some  reach $q$, and all behaviours go infinitely
+ often through $p$ or $q$.
+
+It is then natural to look for  strategies that allow for as many
+behaviours as possible. Such strategies are usually called
+\emph{maximally permissive} in the litterature.
 
 \subsection{Maximal permissive synthesis}
+\label{sec-max-perm}
 
+Different definitions of maximal permissive strategies have been used
+in the literature. In supervisory control
+theory~\cite{ramadge1987supervisory}, maximality is expressed in terms
+of inclusion of sets of behaviours/outcomes, or equivalently by
+referring to simulation between the unfoldings of the systems where
+unauthorised transitions have been pruned, as
+in~\cite{pinchinat2005you}.  In~\cite{bernet2002permissive},
+strategies are also compared by looking at inclusion of the behaviours
+(outcomes) they allow. However, as it is proved
+in~\cite{bernet2002permissive}, the existence of maximally permissive
+strategies for this notion of maximality is ensured only for simple
+safety games.
+
+For this reason an alternative notion of strategy
+permissiveness was introduced in~\cite{bouyer2009measuring} for
+reachability games and further studied in~\cite{bouyer2011measuring}
+for parity games. In this setting, to each transition in a game is
+attached a cost that represents the penalty incurred by a strategy
+that does not allow this transition, and a maximally permissive
+strategy is one that minimises penalties.
+
+The latter definition ensures that
+maximally permissive strategies always exist, but the quantitative
+aspects involved, which are close to mean-payoff
+games~\cite{ehrenfeucht1979positional,gurvich1988cyclic}, are known to
+quickly lead to undecidability when introduced in Strategy Logic~\cite{gardy2017semantics}.
+As for the definition based on inclusion of outcomes, it makes sense in the
+two-player antagonistic setting; but in our multi-player setting, where the set of
+outcomes induced by a strategy depends on which agent uses it, and
+which other agents have a defined strategy, it is not so meaningful.
+
+For this reason we naturally define permissiveness based on refinement
+of strategies: $\sigma'$ is at least as permissive as $\sigma$ if $\sigma\refines\sigma'$.
+With this definition, given a formula $\phi(\var)$ we can express that a strategy $\var$
+  is maximally permissive with regards to  $\phi(\var)$. Define formula $\maxperm(\var,\phi)$ as
+  follows:
+  \[\maxperm(\var,\phi) \quad := \quad \phi(\var) \wedge (\forall \varb \;
+    \var \refinesstr \varb \impl \neg \phi(\varb))\]
+  For instance, if we have two antagonistic players $\ag$ and $\agb$,
+  and $\ag$ tries to ensure the safety property $\always p$, we can let $\phi(\var)=\forall \varc
+  \bind[\ag]{\var}\bind[\agb]{\varc}\always p$, and it then holds that
+  $\CGS,\assign,\pos_\init\models \maxperm(\var,\phi)$ if, and only
+  if, $\assign(\var)$ is a maximally permissive winning strategy for $\ag$.
 
 
 \subsection{Plan B}

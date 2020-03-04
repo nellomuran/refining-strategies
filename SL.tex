@@ -71,6 +71,7 @@ Finally, the \emph{outcome quantifier} $\Eout$ quantifies on
 
 We use usual abbreviations $\top\egdef p\ou\neg p$, $\perp\egdef\neg\top$, $\phi\impl\phi'\egdef \neg \phi \ou \phi'$,
 $\phi\equivaut\phi'\egdef \phi\impl\phi'\et \phi'\impl\phi$,
+$\Aout\psi\egdef \neg \Eout \neg\psi$,
  $\F\phi \egdef \top \until \phi$,   $\always\phi \egdef \neg \F
 \neg \phi$ and
  $\Astratnd\phi\egdef\neg\Estratnd\neg\phi$. % and $\Astratd\phi\egdef\neg\Estratd\neg\phi$.
@@ -108,11 +109,12 @@ its domain contains all free variables of $\phi$.
 
 % \halfline
 % \head{Outcomes}
-For an assignment $\assign$ and a finite play $\fplay$, we let
-$\out(\assign,\fplay)$ be the set of infinite plays that start with
+For an assignment $\assign$ and a finite play $\fplay$, we define the
+\emph{outcomes of $\assign$ from $\fplay$}
+as the set of infinite plays that start with
 $\fplay$ and are then extended by letting players follow the strategies
 assigned by $\assign$. Formally,
- $\out(\assign,\fplay)$ is the set of plays of the form $\fplay \cdot
+we define $\out(\assign,\fplay)$ as the set of plays of the form $\fplay \cdot
  \pos_{1}\pos_{2}\ldots$ such that for all $i\geq 0$, there exists
  $\jmov$ such that for all $\ag\in\dom(\assign)\inter\Agf$,
  $\jmov_\ag\in\assign(\ag)(\fplay\cdot\pos_{1}\ldots\pos_i)$ \mbox{ and }
@@ -200,18 +202,6 @@ logic.
   \[\phidet \quad := \quad \forall \varb \; \varb \refines \var \impl \var\refines\varb\]
 \end{example}
 
-\begin{example}[Maximal permissive strategies]
-  Given a formula $\phi(\var)$ we can express that a strategy $\var$
-  is maximally permissive with regards to  $\phi(\var)$. Define formula $\maxperm(\var,\phi)$ as
-  follows:
-  \[\maxperm(\var,\phi) \quad := \quad \phi(\var) \wedge (\forall \varb \;
-    \var \refinesstr \varb \impl \neg \phi(\varb))\]
-  For instance, if we have two antagonistic players $\ag$ and $\agb$,
-  and $\ag$ tries to ensure the safety property $\always p$, we can let $\phi(\var)=\forall \varc
-  \bind[\ag]{\var}\bind[\agb]{\varc}\always p$, and it then holds that
-  $\CGS,\assign,\pos_\init\models \maxperm(\var,\phi)$ if, and only
-  if, $\assign(\var)$ is a maximally permissive winning strategy for $\ag$.
-\end{example}
 
 In the following sections we  show how \SLref captures a number of
 important problems related to strategy synthesis and nondeterministic strategies. 
