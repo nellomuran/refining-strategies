@@ -31,8 +31,8 @@ two players, E (for Environment) and S (for System) in
 which first the environment chooses an input $i$, then the system chooses
 an output $o$, reaching a position labelled with atoms $i\cup o$ and in which it is
 the environment's turn to play. The LTL synthesis problem for $(I,O,\psi)$ can
-then be solved by model-checking the \SL formula $\exists x (S,x) \A
-\psi$ on $\CGS_{I,O}$, where $\exists x$ is interpreted as
+then be solved by model-checking the \SL formula $\Estratnd (S,\var) \A
+\psi$ on $\CGS_{I,O}$, where $\Estratnd$ is interpreted as
 quantification on deterministic strategies. Note that this really solves the synthesis
 problem as existing model-checking algorithms for Strategy Logic can
 synthesise  witness strategies (when they exist) for strategy variables existentially
@@ -43,11 +43,11 @@ quantified at the beginning of the formula.
 
 Considering nondeterministic strategies, as we do, does not change
 anything for classical \LTL synthesis. Indeed, the two interpretations of
-the formula $\exists x (S,x) \A \psi$ are equivalent: one direction
+the formula $\Estratnd (S,\var) \A \psi$ are equivalent: one direction
 holds because deterministic strategies are a particular case of
 nondeterministic ones, and the other direction holds because if there
-exists a nondeterministic strategy $\strat$ such that $(S,x)\A\psi$
-holds when $x$ is evaluated as $\strat$, then all outcomes of
+exists a nondeterministic strategy $\strat$ such that $(S,\var)\A\psi$
+holds when $\var$ is evaluated as $\strat$, then all outcomes of
 $[S\mapsto \strat]$ satisfy $\psi$, and it is thus also the case when $\strat$
 is replaced by any deterministic strategy $\strat'$ that refines
 $\strat$ and thus generates a subset of its outcomes.
@@ -57,7 +57,7 @@ universal satisfaction of an \LTL formula on all outcomes, we consider
 other forms of branching-time specifications, in particular
 specifications that require existence of outcomes satisfying different
 properties. For instance,
-$\phi=\exists x (S,x) (\E \always p \wedge \E \F \neg p)$ may be false in a
+$\phi=\Estratnd (S,\var) (\E \always p \wedge \E \F \neg p)$ may be false in a
 given \CGS $\CGS$ with the deterministic semantics, and true with the
 nondeterministic one.  In particular, if $S$ is the only player in
 $\CGS$, then a deterministic strategy for $S$ induces a single outcome
@@ -70,7 +70,7 @@ it eventually does not hold, would do.
 Then we can combine the two kinds of specifications by  requiring the
 existence of behaviours satisfying some properties, while requiring
 that all  behaviours satisfy some other property.
-For instance, formula $\phi=\exists x (S,x) (\E \F p \wedge \E \F
+For instance, formula $\phi=\Estratnd (S,\var) (\E \F p \wedge \E \F
  q \wedge \A \always \F (p\vee q))$ asks that some behaviours 
  reach $p$, some  reach $q$, and all behaviours go infinitely
  often through $p$ or $q$.
@@ -79,7 +79,9 @@ It is then natural to look for  strategies that allow for as many
 behaviours as possible. Such strategies are usually called
 \emph{maximally permissive} in the litterature.
 
-\subsection{Maximal permissive synthesis}
+\bam{this is in 2\EXPTIME}
+
+\subsection{Maximally permissive synthesis}
 \label{sec-max-perm}
 
 Different definitions of maximal permissive strategies have been used
@@ -122,13 +124,40 @@ With this definition, given a formula $\phi(\var)$ we can express that a strateg
     \var \refinesstr \varb \impl \neg \phi(\varb))\]
   For instance, if we have two antagonistic players $\ag$ and $\agb$,
   and $\ag$ tries to ensure the safety property $\always p$, we can let $\phi(\var)=\forall \varc
-  \bind[\ag]{\var}\bind[\agb]{\varc}\always p$, and it then holds that
+  \bind[\ag]{\var}\bind[\agb]{\varc}\A\always p$, and it then holds that
   $\CGS,\assign,\pos_\init\models \maxperm(\var,\phi)$ if, and only
   if, $\assign(\var)$ is a maximally permissive winning strategy for $\ag$.
 
+To solve the problem of existence of maximally permissive strategy for
+agent $\ag$ and objective $\phi\in\CTLs$,  we can thus model-check the
+following \SLref formula:
+
+\[\Estratnd (\ag,\var) \maxperm(\var,\phi)\]
+
+When the formula is true, our model-checking algorithm can also
+produce a witness strategy for $\var$ that is maximally permissive.
+%In particular, the above formula is always true when  $\phi$ encodes a safety objective.
+
+\bam{this is in 3\EXPTIME}
 
 \subsection{Plan B}
+\label{sec-plan-B}
 
+A problem that has been much studied in AI \bam{references needed} is
+that of producing plans that enforce some safety property, and in addition
+can at any time be refined to reach some secondary goal. For instance,
+consider an electric vehicle transporting rocks from a point A, where
+they are cut, to a point B, where they are used. The truck must ensure
+that the stock of rocks at point B never runs out (safety property). We would like to synthesise a
+strategy for the truck such that  this property is satisfied, but also
+so that at any time, the strategy can be refined to make the truck go
+through point C, where its battery can be reloaded.
+We can express  this problem in \SLref as follows, where ``empty''
+holds when there are no more rocks in point B, and ``reload'' means
+that the truck is at point C, reloading its battery.
+
+\[\Estratnd (\text{truck},\var) \A \always \left ( \neg \text{empty} \wedge
+  (\Estratnd[\varb] \varb\refines\var \wedge (\text{truck},\varb)\A\F \text{reload}) \right )\]
 
 %%% Local Variables:
 %%% mode: latex
