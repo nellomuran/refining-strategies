@@ -1,3 +1,20 @@
+Module checking~\cite{kupferman2001module} is a generalisation of model checking to the setting
+of open systems, \ie, systems that interact with an environment. The
+idea is to check that the system satisfies a given property, specified
+for instance in \LTL or \CTLs, for any possible environment in which
+it is used.
+
+In this setting, the environment is seen as an entity that can cut
+some transitions of the system. One particular environment can thus be
+modelled as a nondeterministic strategy that defines which transitions
+are allowed, and the module checking problem for a property $\phi$ can
+be written as follows in \SLref, where \text{env} is the environment:
+
+\[\Astratnd (\text{env},\var) \phi\]
+
+Solving the module checking problem for \CTLs specifications can thus
+be done by model checking the above \SLref formula, which can be done
+in 2\EXPTIME.
 
 %%% Local Variables:
 %%% mode: latex
