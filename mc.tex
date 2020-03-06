@@ -146,9 +146,50 @@ where $\racine$ is the root of $\ltree$.     Given a \KS $\KS$  and a
 \QCTLs formula $\phi$, we also write $\KS\modelst\phi$ if
 $\unfold[\KS]{\sstate}\modelst\phi$.
 
-\bam{define simulation depth}
+To state precisely the complexity of model checking \QCTLs we need the
+ notion of simulation depth, introduced in \bam{cite arxiv},
+ which is meant to count how many nested simulation procedures have to
+ be performed in the automata construction to change alternating
+ automata into nondeterministic ones. The simulation depth
+ $\ndd(\phi)$ of a formula $\phi$ is a pair $(k,x)$ where $k$ is the
+ number of nested simulations needed in the automata construction for
+ $\phi$, and $x\in\{\text{nd},\text{alt}\}$ is the type of automaton
+ obtained (nondeterministic or alternating). We write $\ndd_k(\phi)$
+ and $\ndd_x(\phi)$ for, respectively, the first and second component of $\ndd(\phi)$.
+ The inductive definition is as follows:
+      \[
+        \begin{array}{l}
+          \ndd(p) \egdef (0,\nd)\\[5pt]
+          
+          \ndd(\neg \phi) \egdef (\ndd_k(\phi),\alt)\\[5pt]
+          
+          \ndd(\phi_1\ou\phi_2) \egdef \left
+          (\max_{i\in\{1,2\}}\ndd_k(\phi_i), x \right ),\\
+          \hfill \mbox{where
+          }x=
+          \begin{cases}
+            \nd & \mbox{if }\ndd_x(\phi_1)=\ndd_x(\phi_2)=\nd\\
+            \alt & \mbox{otherwise}
+          \end{cases}
+          \\[15pt]
+   \ndd(\E\psi)\egdef
+          \begin{cases}
+            (0,\nd) & \mbox{if }\psi\in\LTL\\
+            (\max_{\phi\in\max(\psi)}\ndd_k(\phi), \alt) & \mbox{otherwise}
+          \end{cases}
+          \\[15pt]
+          \ndd(\existsp\phi)\egdef (k,\nd),\\
+          \hfill\quad\quad\quad\quad\quad\mbox{where }
+          k=\begin{cases}
+            \ndd_k(\phi) & \mbox{if }\ndd_x(\phi)=\nd \\
+            \ndd_k(\phi)+1 & \mbox{otherwise}
+          \end{cases}                              
+        \end{array}
+      \]
 
-\begin{theorem}
+We say that a formula $\phi$ has simulation depth $k$ if
+$\ndd_k(\phi)=k$.  
+\begin{theorem}[\bam{cite arxiv}]
   \label{theo-qctls}
   The model-checking problem for \QCTLs is \kEXPTIME[(k+1)]-complete for
   formulas of simulation depth at most $k$.
