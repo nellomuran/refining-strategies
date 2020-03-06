@@ -32,8 +32,9 @@ which first the environment chooses an input $i$, then the system chooses
 an output $o$, reaching a position labelled with atoms $i\cup o$ and in which it is
 the environment's turn to play. The LTL synthesis problem for $(I,O,\psi)$ can
 then be solved by model-checking the \SL formula
-\[\phisynth:=\Estratnd (S,\var) \Astratnd[\varb] (E,\varb) \A \psi\]
-on $\CGS_{I,O}$, where $\Estratnd$ and $\Astratnd$ are interpreted as
+\[\phisynth:=\Estratnd \phidet \wedge   \Astratnd[\varb]
+  \phidet[\varb] \rightarrow (E,\varb)(S,\var) \A \psi\]
+on $\CGS_{I,O}$, where $\Estratnd$ and $\Astratnd[\varb]$ are interpreted as
 quantification on deterministic strategies. Note that this really solves the synthesis
 problem as existing model-checking algorithms for Strategy Logic can
 synthesise  witness strategies (when they exist) for strategy variables existentially
