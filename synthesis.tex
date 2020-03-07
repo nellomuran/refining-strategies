@@ -1,10 +1,10 @@
 In this section we show how our framework captures generalisations of
 the classical \LTL synthesis problem to the context of nondeterministic strategies.
 
-\subsection{Classical LTL synthesis}
+\subsection{Reactive synthesis}
 \label{sec-ltl-synth}
 
-We first recall the standard LTL synthesis problem as defined
+We first recall the standard \LTL synthesis problem as defined
 in~\cite{pnueli1989synthesisshort}: consider a set of \emph{input
   variables} $I$ controlled by the environment and a set of
 \emph{output variables} $O$ controlled by the system. In each round,
@@ -19,7 +19,7 @@ an infinite sequence of inputs $w=i_0i_1i_2\ldots \in (2^I)^\omega$, we
 define the execution $S(w)=i_0\cup o_0, i_1\cup o_1, i_2\cup o_2\ldots$ where,
 for each $k\geq 0$, $o_k=S(i_0\ldots i_k)$.
 
-The \emph{LTL synthesis problem} consists in,
+The \emph{\LTL synthesis problem} consists in,
 given $I$, $O$ and an \LTL formula $\psi$ over atoms $I\cup O$,
 synthesising a (finite representation of a) system $S:(2^I)^+\to 2^O$ such
 that for all $w=i_0i_1i_2\ldots\in (2^I)^\omega$ it holds that $S(w)\models\psi$.
@@ -31,11 +31,10 @@ two players, E (for Environment) and S (for System) in
 which first the environment chooses an input $i$, then the system chooses
 an output $o$, reaching a position labelled with atoms $i\cup o$ and in which it is
 the environment's turn to play. The LTL synthesis problem for $(I,O,\psi)$ can
-then be solved by model-checking the \SL formula
-\[\phisynth:=\Estratnd \phidet \wedge   \Astratnd[\varb]
-  \phidet[\varb] \rightarrow (E,\varb)(S,\var) \A \psi\]
-on $\CGS_{I,O}$, where $\Estratnd$ and $\Astratnd[\varb]$ are interpreted as
-quantification on deterministic strategies. Note that this really solves the synthesis
+then be solved by model-checking on $\CGS_{I,O}$ the \SLref formula
+\[\phisynthdet(\psi):=\existsd \var.   \foralld \varb.
+ (S,\var)(E,\varb) \A \psi\]
+ Note that this really solves the synthesis
 problem as existing model-checking algorithms for Strategy Logic can
 synthesise  witness strategies (when they exist) for strategy variables existentially
 quantified at the beginning of the formula.
@@ -49,33 +48,33 @@ of $\var$ can be obtained by fixing a deterministic strategy $\varb$
 for $E$. It then follows by the
 semantics of the outcome quantifier $\A$ that, when
 considering only deterministic strategies,
-$\phisynth$ is equivalent to $\Estratnd(S,\var)\A\psi$.
+$\phisynthdet(\psi)$ is equivalent to $\exists \var (S,\var)\A\psi$.
 
 \subsection{Nondeterministic synthesis}
 \label{sec-nd-synth}
 
 Considering nondeterministic strategies, as we do, does not change
-anything for classical \LTL synthesis. Indeed, it is a simple exercise
-to check that the two interpretations of $\phisynth$, \ie, with
-deterministic or nondeterministic strategies, are equivalent.
+anything for classical \LTL synthesis. Indeed, consider the following
+formula:
+\[\phisynthndet(\psi):=\exists \var.   \foralld \varb.
+ (S,\var)(E,\varb) \A \psi\]
+which differs from $\phisynthdet(\psi)$ only in that it allows the system
+$S$ to use nondeterministic strategies. It is easy to check that:
+\begin{proposition}
+  \label{prop-equiv-synth}
+  For every \LTL formula $\psi$, \[\CGS_{I,O}\models
+  \phisynthdet(\psi) \quad\mbox{ iff } \quad\CGS_{I,O}\models \phisynthndet(\psi)\]
+\end{proposition}
 
-%the two interpretations of
-%  formula $\phisynth$ are equivalent: one direction
-% holds because deterministic strategies are a particular case of
-% nondeterministic ones, and the other direction holds because if there
-% exists a nondeterministic strategy $\strat$ such that $(S,\var)
-% \Astratnd[\varb] (E,\varb)\A\psi$
-% holds when $\var$ is evaluated to $\strat$, then all outcomes of
-% $[S\mapsto \strat]$ satisfy $\psi$, and it is thus also the case when $\strat$
-% is replaced by any deterministic strategy $\strat'$ that refines
-% $\strat$ and thus generates a subset of its outcomes.
+
 
 However it makes a difference if, instead of considering only
 universal satisfaction of an \LTL formula on all outcomes, we consider
 other forms of branching-time specifications, in particular
 specifications that require existence of outcomes satisfying different
 properties. For instance,
-\[\phi_1:=\Estratnd (S,\var) \Astratnd[\varb] (E,\varb) (\E \always p \wedge \E \F \neg p)\] 
+\[\phi_1:=\exists \var (S,\var) \foralld \varb (E,\varb) (\E \always p
+  \wedge \E \F \neg p)\]
 is always false with the deterministic semantics, because a pair of
 strategies for the system and the environment determine a unique
 outcome that cannot satisfy both $\always p$ and $\F\neg p$.
@@ -87,7 +86,7 @@ Then we can combine the two kinds of specifications by  requiring the
 existence of behaviours satisfying some properties, while requiring
 that all  behaviours satisfy some other property.
 For instance, formula
-\[\phi_2:=\Estratnd (S,\var) \Astratnd[\varb] (E,\varb)(\E \F p \wedge \E \F
+\[\phi_2:=\exists \var (S,\var) \forall\varb (E,\varb)(\E \F p \wedge \E \F
   q \wedge \A \always \F (p\vee q))\]
   asks that some behaviours 
  reach $p$, some  reach $q$, and all behaviours go infinitely
@@ -150,7 +149,7 @@ To solve the problem of existence of maximally permissive strategy for
 agent $\ag$ and objective $\phi\in\CTLs$,  we can thus model-check the
 following \SLref formula:
 
-\[\Estratnd (\ag,\var) \maxperm(\var,\phi)\]
+\[\exists\var (\ag,\var) \maxperm(\var,\phi)\]
 
 When the formula is true, our model-checking algorithm can also
 produce a witness strategy for $\var$ that is maximally permissive.
@@ -158,15 +157,7 @@ produce a witness strategy for $\var$ that is maximally permissive.
 
 \bam{this is in 3\EXPTIME}
 
-\subsection{Synthesis with reactive environments}
-\label{sec-synth-open-env}
-
-The problem studied in~\cite{kupferman2000open} can be captured by the
-following formula:
-
-\[\Estratnd (S,\var) \Astratnd[\varb] (E,\varb) \phi\]
-
-\subsection{Plan B}
+\subsection{Strategy refinement}
 \label{sec-plan-B}
 
 A problem that has been much studied in AI \bam{references needed} is
@@ -182,8 +173,23 @@ We can express  this problem in \SLref as follows, where ``empty''
 holds when there are no more rocks in point B, and ``reload'' means
 that the truck is at point C, reloading its battery.
 
-\[\Estratnd (\text{truck},\var) \A \always \left ( \neg \text{empty} \wedge
-  (\Estratnd[\varb] \varb\refines\var \wedge (\text{truck},\varb)\A\F \text{reload}) \right )\]
+\[\exists\var (\text{truck},\var) \A \always \left ( \neg \text{empty} \wedge
+  (\exists \varb. \varb\refines\var \wedge (\text{truck},\varb)\A\F \text{reload}) \right )\]
+
+
+\subsection{Module checking}
+\label{section:module}
+\input{module-checking.tex}
+
+
+\subsection{Synthesis with reactive environments}
+\label{sec-synth-open-env}
+
+The problem studied in~\cite{kupferman2000open} can be captured by the
+following formula:
+
+\[\exists\var (S,\var) \forall \varb (E,\varb) \phi\]
+
 
 %%% Local Variables:
 %%% mode: latex

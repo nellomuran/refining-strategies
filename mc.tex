@@ -146,17 +146,8 @@ where $\racine$ is the root of $\ltree$.     Given a \KS $\KS$  and a
 \QCTLs formula $\phi$, we also write $\KS\modelst\phi$ if
 $\unfold[\KS]{\sstate}\modelst\phi$.
 
-To state precisely the complexity of model checking \QCTLs we need the
- notion of simulation depth, introduced in \bam{cite arxiv},
- which is meant to count how many nested simulation procedures have to
- be performed in the automata construction to change alternating
- automata into nondeterministic ones. The simulation depth
- $\ndd(\phi)$ of a formula $\phi$ is a pair $(k,x)$ where $k$ is the
- number of nested simulations needed in the automata construction for
- $\phi$, and $x\in\{\text{nd},\text{alt}\}$ is the type of automaton
- obtained (nondeterministic or alternating). We write $\ndd_k(\phi)$
- and $\ndd_x(\phi)$ for, respectively, the first and second component of $\ndd(\phi)$.
- The inductive definition is as follows:
+Similar to \SLref, the simulation depth for \QCTLs is defined
+by induction as follows:
       \[
         \begin{array}{l}
           \ndd(p) \egdef (0,\nd)\\[5pt]
@@ -187,8 +178,6 @@ To state precisely the complexity of model checking \QCTLs we need the
         \end{array}
       \]
 
-We say that a formula $\phi$ has simulation depth $k$ if
-$\ndd_k(\phi)=k$.  
 \begin{theorem}[]
   \label{theo-qctls}
   The model-checking problem for \QCTLs is \kEXPTIME[(k+1)]-complete for
@@ -258,7 +247,7 @@ $\trp[f]{\X\psi}  \egdef \X\trp[f]{\psi}$ and $\trp[f]{\psi_1\until\psi_2}  \egd
 We continue with the strategy quantifier:
 \[
   \begin{array}{lrl}
-& \tr[f]{\Estratnd\phi}	& \egdef  \exists
+& \tr[f]{\exists\var\phi}	& \egdef  \exists
                                   p_{\mov_{1}}^{\var}\ldots
                                   \exists
                                   p_{\mov_{\maxmov}}^{\var}. \phistrat
@@ -421,8 +410,8 @@ by definition $\assign[a\mapsto \assign(\var)](a)=\assign(\var)=\assign(f[a\maps
 
 
 \halfline
-For $\phi=\Estratnd\phi'$, assume first that
-$\CGS,\assign,{\fplay}\models\Estratnd\phi'$. There exists a
+For $\phi=\exists\var\phi'$, assume first that
+$\CGS,\assign,{\fplay}\models\exists\var\phi'$. There exists a
 nondeterministic strategy $\strat$ such that
  \[\CGS,\assign[\var\mapsto \strat],\fplay\models \phi'.\] Since $f$ is
  compatible with $\assign$, it is also compatible with assignment
@@ -449,7 +438,7 @@ It follows that   \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
  \[\unfold[\KS_{\CGS}]{\sstate_{\pos_\init}}\prodlab
    \stratlab[\assign(\var_1)]{\var_1}\prodlab\ldots \prodlab
    \stratlab[\assign(\var_k)]{\var_k},\noeud_{\fplay}
-   \modelst \tr[f]{\Estratnd\phi'}.\]
+   \modelst \tr[f]{\exists\var\phi'}.\]
 
 For the other direction, assume
 that
@@ -478,11 +467,11 @@ By $\phistrat$, these \labelings
  By induction hypothesis we have
 $\CGS,\assign[\var\mapsto
 \strat],\fplay\models \phi'$, hence $\CGS,\assign,\fplay\models
-\Estratnd\phi'$.
+\exists\var\phi'$.
 
-\halfline
-For $\phi=\Estratd\psi$, the proof is similar, using $\phistratdet$
-instead of $\phistrat$.
+% \halfline
+% For $\phi=\Estratd\psi$, the proof is similar, using $\phistratdet$
+% instead of $\phistrat$.
 
  
 \halfline
@@ -523,13 +512,6 @@ Because $\tpath_{\iplay,|\fplay|-1}$ satisfies $\psiout[f]$, $\dom(\assign)\inte
 hence  $\CGS,\assign,\fplay \modelsSL \Eout\psi$.
 
 % The size of $\KS_{\CGS}$, $\tr[f]{\phi}$ and $\trp[f]{\psi}$ are easily verified.
-
-%$\tr[f]{\Estrato{\obs}\phi}$ is of size
-% $O(|\CGS|^k+|\tr[f]{\phi}|)$, with $k=1$ for nondeterministic
-% strategies and $k=2$ for deterministic ones.
-% and it is of size $O(|\setpos|\times |\Act|^{|\Agf|}\times
-% |\Agf|)\leq O(|\CGS|\times |\Agf|) \leq O(|\CGS|^2)$.
-% $\tr[f]{\Eout\psi}$ is thus of size $O(|\CGS|^2+\trp[f]{\psi})$.
  \end{proof}
  
  Applying Proposition~\ref{prop-redux} to the sentence $\Phi$, $\fplay=\pos_\init$, any assignment $\assign$, and
@@ -539,7 +521,7 @@ hence  $\CGS,\assign,\fplay \modelsSL \Eout\psi$.
  \tr[\emptyset]{\Phi}.\]
 
 
-  
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"

@@ -1,3 +1,6 @@
+\DeclareMathOperator*{\Exists}{\exists}
+\DeclareMathOperator*{\Forall}{\forall}
+
 \newcommand{\head}[1]{\textbf{#1.}}
 \newcommand{\halfline}{\vskip.5em}
 
@@ -275,14 +278,16 @@
 %% SL operators
 
 \newcommand{\determin}{\text{d}}
-\newcommand{\nondetermin}{{}}
+\newcommand{\nondetermin}{\text{nd}}
 \newcommand{\gen}{\text{ty}}
-\newcommand{\Estratd}[1][\var]{\exists^\determin #1\,}
-\newcommand{\Astratd}[1][\var]{\forall^\determin #1\,}
-\newcommand{\Estratnd}[1][\var]{\exists^\nondetermin #1\,}
-\newcommand{\Astratnd}[1][\var]{\forall^\nondetermin #1\,}
-\newcommand{\Estratgen}[1][\var]{\exists^\gen #1\,}
-\newcommand{\Astratgen}[1][\var]{\forall^\gen #1\,}
+% \newcommand{\Estratd}[1][\var]{\exists^{\hskip.5pt\determin} #1\,}
+% \newcommand{\Astratd}[1][\var]{\forall^{\hskip.5pt\determin} #1\,}
+\DeclareMathOperator*{\existsd}{\exists^{\hskip.5pt\determin}}
+\DeclareMathOperator*{\foralld}{\forall^{\hskip.5pt\determin}}
+% \newcommand{\Estratnd}[1][\var]{\exists^\nondetermin #1\,}
+% \newcommand{\Astratnd}[1][\var]{\forall^\nondetermin #1\,}
+% \newcommand{\Estratgen}[1][\var]{\exists^\gen #1\,}
+% \newcommand{\Astratgen}[1][\var]{\forall^\gen #1\,}
 \newcommand{\setstratd}{\mbox{\emph{Str}}^{\text{d}}}
 \newcommand{\setstratnd}{\mbox{\emph{Str}}}
 \newcommand{\refines}{\preceq}
@@ -496,7 +501,8 @@
 \newcommand{\phiauxNEi}[1][\vecvar]{\phi^{\textnormal{\scriptsize ii}}_{\text{NE}}}
 \newcommand{\phiauxSPEi}[1][\vecvar]{\phi^{\textnormal{\scriptsize ii}}_{\text{SPE}}}
 
-\newcommand{\phisynth}{\phi_{\text{synth}}}
+\newcommand{\phisynthdet}{\phi^{\determin}_{\text{synth}}}
+\newcommand{\phisynthndet}{\phi^{\nondetermin}_{\text{synth}}}
 
 %% Coordination logic
 
