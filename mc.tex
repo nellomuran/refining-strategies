@@ -197,7 +197,7 @@ model-checking problem, and assume without loss of generality that
 each strategy variable is quantified at most once in $\Phi$. We define an equivalent instance of the
 model-checking problem for \QCTLs.
 
-\bam{say that the reduction preserves simulation depth}
+
 
 Define the \KS $\KS_{\CGS}\egdef(\setstates,\relation,\sstate_{\init},\lab')$ where
 \begin{itemize}
@@ -247,22 +247,22 @@ $\trp[f]{\X\psi}  \egdef \X\trp[f]{\psi}$ and $\trp[f]{\psi_1\until\psi_2}  \egd
 We continue with the strategy quantifier:
 \[
   \begin{array}{lrl}
-& \tr[f]{\exists\var\phi}	& \egdef  \exists
+& \tr[f]{\exists\var\,\phi}	& \egdef  \exists
                                   p_{\mov_{1}}^{\var}\ldots
                                   \exists
                                   p_{\mov_{\maxmov}}^{\var}. \phistrat
                                   \et \tr[f]{\phi}\\[5pt]
   \mbox{where} &  \phistrat & \egdef \A\always
                               \bigou_{\mov\in\Mov}p_{\mov}^{\var}
-%                               \quad\mbox{ and}\\[10pt]
-% & \tr[f]{\Estratd\phi}	& \egdef  \exists
-%                                   p_{\mov_{1}}^{\var}\ldots
-%                                   \exists^{\trobs{\obs}}
-%                                   p_{\mov_{\maxmov}}^{\var}. \phistratdet
-%                                   \et \tr[f]{\phi}\\[5pt]
-%   \mbox{where} & \phistratdet & \egdef
-% \A\always\bigou_{\mov\in\Mov}(p_{\mov}^{\var}\et\biget_{\mov'\neq\mov}\neg
-% p_{\mov'}^{\var}).                              
+                              \quad\mbox{ and}\\[10pt]
+& \tr[f]{\existsd\var\,\phi}	& \egdef  \exists
+                                  p_{\mov_{1}}^{\var}\ldots
+                                  \exists^{\trobs{\obs}}
+                                  p_{\mov_{\maxmov}}^{\var}. \phistratdet
+                                  \et \tr[f]{\phi}\\[5pt]
+  \mbox{where} & \phistratdet & \egdef
+\A\always\bigou_{\mov\in\Mov}(p_{\mov}^{\var}\et\biget_{\mov'\neq\mov}\neg
+p_{\mov'}^{\var}).                              
 \end{array}
 \]
 
@@ -274,10 +274,10 @@ allows action $\mov$ in $\fplay$ or not.
 $\phistrat$  checks that at least one action is allowed in each
 node, and thus that atomic propositions
 $p_{\mov}^{\var}$ indeed define a (nondeterministic) strategy.
-% $\phistratdet$ instead ensures that \emph{exactly one} action is chosen for strategy $\var$  in each finite
-% play, and thus that atomic propositions
-% $p_{\mov}^{\var}$  characterise a
-% deterministic strategy.
+$\phistratdet$ instead ensures that \emph{exactly one} action is chosen for strategy $\var$  in each finite
+play, and thus that atomic propositions
+$p_{\mov}^{\var}$  characterise a
+deterministic strategy.
 
 For strategy refinement, the translation is as follows:
 \[\tr[f]{\var \refines \varb} \egdef \A\always\biget_{\mov\in\Mov} p_\mov^\var
@@ -469,9 +469,9 @@ $\CGS,\assign[\var\mapsto
 \strat],\fplay\models \phi'$, hence $\CGS,\assign,\fplay\models
 \exists\var\phi'$.
 
-% \halfline
-% For $\phi=\Estratd\psi$, the proof is similar, using $\phistratdet$
-% instead of $\phistrat$.
+
+For $\phi=\existsd\var\,\phi$, the proof is similar, using $\phistratdet$
+instead of $\phistrat$.
 
  
 \halfline
@@ -520,6 +520,25 @@ hence  $\CGS,\assign,\fplay \modelsSL \Eout\psi$.
 \unfold[\KS_{\CGS}]{} \models
  \tr[\emptyset]{\Phi}.\]
 
+To obtain Theorem~\ref{theo-SLref} as a consequence of Theorem~\ref{theo-qctls}, it only remains to observe that
+the translation $\tr{}$ preserves simulation depth, modulo a
+detail that needs a particular treatment in the translation of
+$\exists \var\,\phi$ (the case of $\existsd \var\,\phi$ is similar).
+We have  $\tr{\exists \var\,\phi}=\exists p_{\mov_{1}}^{\var}\ldots \exists
+                                  p_{\mov_{\maxmov}}^{\var}. \phistrat
+                                  \et \tr[f]{\phi}$,
+                                  and even when
+$\ndd_x(\phi)=\nd$, we have  $\ndd_x(\phistrat\wedge\tr{\phi})=\alt$,
+and in that case it follows that $\ndd_k(\tr{\exists\var\,\phi})$ is
+one more than $\ndd_k(\exists\var\,\phi)$. But this additional
+exponential can be avoided by noting that $\phistrat$ can be
+recognised by a very simple \emph{deterministic} tree automaton, which
+can be put in product with a nondeterministic automaton for
+$\tr{\phi}$, yielding a nondeterministic automaton of polynomial
+size. In other words, in this precise case conjunction does not
+introduce alternation, and if the automaton for $\tr{\phi}$ is
+nondeterministic we can obtain a nondeterministic automaton for
+$\phistrat\wedge\tr{\phi}$ without incurring an exponential blowup.
 
 
 %%% Local Variables:

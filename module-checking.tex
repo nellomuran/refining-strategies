@@ -7,12 +7,12 @@ it is used.
 In this setting, the environment is seen as an entity that can cut
 some transitions of the system. One particular environment can thus be
 modelled as a nondeterministic strategy that defines which transitions
-are allowed, and the module checking problem for a property $\phi$ can
+are allowed, and the module checking problem for a \CTLs formula $\phi$ can
 be written as follows in \SLref, where $E$ is the environment:
 
 \[\forall\var (E,\var) \,\phi\]
 
-Solving the module checking problem for \CTLs specifications can thus
+Solving the module-checking problem for \CTLs specifications can thus
 be done by model checking the above \SLref formula, which can be done
 in 2\EXPTIME.
 

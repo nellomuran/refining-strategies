@@ -23,7 +23,7 @@ now fix $\Varf$, a finite non-empty set of \emph{variables}.
   \phi\egdef &\; p 
   \mid \neg \phi 
   \mid \phi\ou\phi 
-               \mid \exists\var \phi
+               \mid \exists\var\, \phi
                \mid \var \refines \varb
                \mid \bind{\var}\phi
 %               \mid \unbind\phi
@@ -177,6 +177,10 @@ definition by mutual induction is as follows:
 \endgroup
 \end{definition}
 
+If $\phi$ is a sentence and $\CGS$ is a \CGS with initial position
+$\pos_\init$, then the empty assignment $\emptyset$ is
+variable-complete for $\phi$ and we write $\CGS\models\phi$ for
+$\CGS,\emptyset,\pos_\init\models\phi$. 
 
 We give some examples of useful notions that can be expressed in this
 logic. 
@@ -205,11 +209,11 @@ logic.
 In the following we will use the following notations to express
 quantification on \emph{deterministic} strategies:
 \begin{align*}
-\existsd\var \phi & :=
+\existsd\var\, \phi & :=
 \exists\var (\phidet \wedge \phi) \\
-\text{and }\quad \foralld \var \phi & := \forall \var (\phidet \rightarrow \phi)
+\text{and }\quad \foralld \var\, \phi & := \forall \var (\phidet \rightarrow \phi)
 \end{align*}
-Note that, as usual, we have $\foralld \var \phi \equiv \neg \existsd\var \neg \phi$.
+Note that, as usual, we have $\foralld \var\, \phi \equiv \neg \existsd\var \neg \phi$.
 
 \subsection{Outcomes as strategy refinements}
 \label{sec-link-E-ref}
@@ -293,6 +297,19 @@ in Section~\ref{section:mc}.
   Model checking \SLref is $(k+1)$-\EXPTIME-complete for formulas of
   simulation depth at most $k$.
 \end{theorem}
+
+\begin{remark}
+  \label{rem-def-existsdet}
+Notice that defining $\existsd \var\phi$ as $\exists\var
+(\det(\var)\wedge \phi)$, where $\det(\var)=\forall \varb (\varb
+\refines \var \rightarrow \var \refines \varb)$, introduces a
+simulation between $\exists \var$ and $\forall \varb$. This
+exponential can be avoided by considering $\existsd \var\,\phi$ as a basic
+construct in the syntax, whose translation to \QCTLs is essentially
+the same as that of $\exists \var\,\phi$ (see
+Section~\ref{sec-reduction}), and for which simulation depth is
+defined as for $\exists\var\,\phi$.
+\end{remark}
 
 In the following sections we  show how \SLref captures a number of
 important problems related to strategy synthesis and nondeterministic strategies. 
