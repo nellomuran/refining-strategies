@@ -10,11 +10,12 @@ modelled as a nondeterministic strategy that defines which transitions
 are allowed, and the module checking problem for a \CTLs formula $\phi$ can
 be written as follows in \SLref, where $E$ is the environment:
 
-\[\forall\var (E,\var) \,\phi\]
+\[\phimodule:=\forall\var (E,\var) \,\phi\]
 
 Solving the module-checking problem for \CTLs specifications can thus
-be done by model checking the above \SLref formula, which can be done
-in 2\EXPTIME.
+be done by model checking formula $\phimodule$. This formula has
+simulation depth at most 1, and the procedure thus runs  in 
+doubly exponential deterministic time, which is asymptotically optimal~\cite{kupferman2001module}.
 
 %%% Local Variables:
 %%% mode: latex

@@ -138,6 +138,9 @@ This formula has simulation depth at most 2,
   optimal upper bound. The same complexity is proved
   in~\cite{jiang2006supervisory} in a slightly different setting.
 
+\bam{add discussion about writing $\existsd \varc. \varc\refines\var
+  \wedge (S,\varc)\A\psi$ instead of $\E\psi$}
+  
   % \begin{remark}
   %   \label{rem-det-env}
   %   In~\cite{KMTV00} the supervisory control
@@ -243,15 +246,25 @@ consider an electric vehicle transporting rocks from a point A, where
 they are cut, to a point B, where they are used. The truck must ensure
 that the stock of rocks at point B never runs out (safety property). We would like to synthesise a
 strategy for the truck such that  this property is satisfied, but also
-so that at any time, the strategy can be refined to make the truck go
-through point C, where its battery can be reloaded.
+so that at any time, the strategy can be refined  to make the truck go
+through point C, where its battery can be reloaded. The fact that the
+strategy to reload refines the initial one ensures that the main
+property remains satisfied, \ie, it remains true that B will not run
+out even when the truck decides to go reload.
 We can express  this problem in \SLref as follows, where ``empty''
 holds when there are no more rocks in point B, and ``reload'' means
 that the truck is at point C, reloading its battery.
 
-\[\exists\var (\text{truck},\var) \A \always \left ( \neg \text{empty} \wedge
-  (\exists \varb. \varb\refines\var \wedge (\text{truck},\varb)\A\F \text{reload}) \right )\]
+\begin{align*}
+\phireload:=\exists\var (\text{truck},\var) & \A \always \big ( \neg
+                                              \text{empty} \wedge \\
+&  (\exists \varb. \varb\refines\var \wedge (\text{truck},\varb)\A\F \text{reload}) \big )  
+\end{align*}
 
+The simulation depth for $\phireload$ is 3, and thus by
+Theorem~\ref{theo-SLref} we obtain 4\EXPTIME upper bound for this
+problem. This is a high complexity, but it is also a highly complex
+and interesting problem.
 
 \subsection{Module checking}
 \label{section:module}
