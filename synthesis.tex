@@ -23,8 +23,7 @@ The \emph{\LTL synthesis problem} consists in,
 given $I$, $O$ and an \LTL formula $\psi$ over atoms $I\cup O$,
 synthesising a (finite representation of a) system $S:(2^I)^+\to 2^O$ such
 that for all $w=i_0i_1i_2\ldots\in (2^I)^\omega$ it holds that $S(w)\models\psi$.
-This problem is known to be
-\2EXPTIME-complete~\cite{pnueli1989synthesisshort}, and it can easily
+This problem can easily
 be coded in Strategy Logic: one builds a turn-based game arena $\CGS_{I,O}$ (which
 can be represented as a \CGS, see Remark~\ref{rem-turn-based}) with
 two players, E (for Environment) and S (for System) in
@@ -50,20 +49,20 @@ Note also that in the case of deterministic strategies, fixing a
 strategy for each player fixes a unique outcome, and thus $\A\psi$ in
 the formula above could be replaced by $\E\psi$ without affecting the semantics.
 Also, once a deterministic strategy $\var$ is fixed for $S$, each
-deterministic strategy for $E$ fixes an outcome of strategy $\var$, and each outcome
+deterministic strategy $\varb$ for $E$ fixes an outcome of strategy $\var$, and each outcome
 of $\var$ can be obtained by fixing a deterministic strategy $\varb$
 for $E$. It then follows by the
 semantics of the outcome quantifier $\A$ that, when
 considering only deterministic strategies,
 $\phisynthdet(\psi)$ is equivalent to $\existsd \var (S,\var)\A\psi$.
 
-\subsection{Nondeterministic synthesis}
+\subsection{Supervisory control}
 \label{sec-nd-synth}
 
 Considering nondeterministic strategies, as we do, does not change
 anything for classical \LTL synthesis. Indeed, consider the following
 formula:
-\[\phisynthndet(\psi):=\exists \var.   \foralld \varb.
+\[\phisynthndet(\psi):=\exists \var.   \forall \varb.
  (S,\var)(E,\varb) \A \psi\]
 which differs from $\phisynthdet(\psi)$ only in that it allows the system
 $S$ to use nondeterministic strategies. It is easy to check that:
@@ -96,7 +95,7 @@ $S$ to use nondeterministic strategies. It is easy to check that:
     (2) edge [loop right]     node[minimum size=5pt]
     {$\cdot\,,\cdot$} (2);
 \end{tikzpicture}  
-  \caption{A model in which $\phi_1$ holds}
+  \caption{A model in which $\phi'_1$ holds}
   \label{fig:example}
 \end{figure}
 
@@ -105,35 +104,59 @@ universal satisfaction of an \LTL formula on all outcomes, we consider
 other forms of branching-time specifications, in particular
 specifications that require existence of outcomes satisfying different
 properties, sometimes called \emph{possibility requirements}~\cite{kupferman1997module}. For instance,
-\[\phi_1:=\exists \var (S,\var) \foralld \varb (E,\varb) (\E \always p
+\[\phi_1:=\existsd \var (S,\var) \foralld \varb (E,\varb) (\E \always p
   \wedge \E \F \neg p)\]
-is always false with the deterministic semantics, because a pair of
+is always false, because a pair of
 strategies for the system and the environment determine a unique
 outcome that cannot satisfy both $\always p$ and $\F\neg p$.
-However it can be true with the
-nondeterministic interpretation.
-For instance in model $\CGS_1$ depicted in Figure~\ref{fig:example}, where the
+However
+\[\phi'_1:=\exists \var (S,\var) \forall \varb (E,\varb) (\E \always p
+  \wedge \E \F \neg p)\]
+ can be true: for instance in model $\CGS_1$ depicted in Figure~\ref{fig:example}, where the
 initial position is marked by an incoming arrow and  '$\cdot$' stands
 for any possible action, it is clear that the nondeterministic
 strategy that allows both $a$ and $b$ in the initial position is a
-witness for the satisfaction of $\phi_1$.
+witness for the satisfaction of $\phi'_1$.
 Note that in this example the environment's choices are irrelevant.
 
 Then we can combine the two kinds of specifications by  requiring the
 existence of behaviours satisfying some properties, while requiring
 that all  behaviours satisfy some other property.
 For instance, formula
-\[\phi_2:=\exists \var (S,\var) \foralld\varb (E,\varb)(\E \F p \wedge \E \F
+\[\phi_2:=\exists \var (S,\var) \forall\varb (E,\varb)(\E \F p \wedge \E \F
   q \wedge \A \always \F (p\vee q))\]
   asks that some behaviours 
  reach $p$, some  reach $q$, and all behaviours go infinitely
  often through $p$ or $q$.
 
-For arbitrary \CTLs specifications $\phi$, the formula $\exists \var (S,\var) \foralld\varb (E,\varb)(\E \F p \wedge \E \F
-  q \wedge \A \always \F (p\vee q))$ has simulation depth at most 2,
-  and thus the problem of nondeterministic synthesis for \CTLs
-  specifications is in 3\EXPTIME.
- 
+For arbitrary \CTLs specifications $\phi$, the formula $\exists \var
+(S,\var) \forall\varb (E,\varb)\phi$ captures the
+\emph{supervisory control problem} for \CTLs as defined in
+~\cite{KMTV00}, where it is proved to be 3\EXPTIME-complete.
+This formula has simulation depth at most 2,
+  and thus the model-checking algorithm for \SLref provides the
+  optimal upper bound. The same complexity is proved
+  in~\cite{jiang2006supervisory} in a slightly different setting.
+
+  % \begin{remark}
+  %   \label{rem-det-env}
+  %   In~\cite{KMTV00} the supervisory control
+  %   problem is stated with \emph{nondeterministic} strategies for the
+  %   environment, while in our formulation the strategy of the system
+  %   has to satisfy the specification against every
+  %   \emph{deterministic} strategy of the environment. The former is
+  %   more demanding, as nondeterministic strategies include
+  %   deterministic ones; but if we know that the environment has to
+  %   follow a deterministic strategy, then the latter variant gives
+  %   even more confidence regarding the quality of the system's
+  %   strategy, in the sense that it ensures not only that all the
+  %   possibilities (formulas of the form $\E\psi$) in the specification
+  %   are satisfied, but in addition it means that the system can choose
+  %   which one to satisfy. Indeed, if the system's strategy $\sigma$ ensures that against
+  %   any  deterministic
+  %   strategy of the environment, $\E$ 
+  % \end{remark}
+  
 It is then natural to look for  strategies that allow for as many
 behaviours as possible. Such strategies are usually called
 \emph{maximally permissive} in the litterature.
@@ -143,15 +166,14 @@ behaviours as possible. Such strategies are usually called
 \subsection{Maximally permissive synthesis}
 \label{sec-max-perm}
 
-Different definitions of maximal permissive strategies have been used
+Different definitions of maximally permissive strategies have been used
 in the literature. In supervisory control
 theory~\cite{ramadge1987supervisory}, maximality is expressed in terms
 of inclusion of sets of behaviours/outcomes, or equivalently by
 referring to simulation between the unfoldings of the systems where
 unauthorised transitions have been pruned, as
 in~\cite{pinchinat2005you}.  In~\cite{bernet2002permissive},
-strategies are also compared by looking at inclusion of the behaviours
-(outcomes) they allow. However, as it is proved
+strategies are also compared by looking at inclusion of the behaviours/outcomes they allow. However, as it is proved
 in~\cite{bernet2002permissive}, the existence of maximally permissive
 strategies for this notion of maximality is ensured only for simple
 safety games.
@@ -170,34 +192,46 @@ aspects involved, which are close to mean-payoff
 games~\cite{ehrenfeucht1979positional,gurvich1988cyclic}, are known to
 quickly lead to undecidability when introduced in Strategy Logic~\cite{gardy2017semantics}.
 As for the definition based on inclusion of outcomes, it makes sense in the
-two-player antagonistic setting; but in our multi-player setting, where the set of
+two-player antagonistic setting; but it is not adapted to our multi-player setting, where the set of
 outcomes induced by a strategy depends on which agent uses it, and
-which other agents have a defined strategy, it is not so meaningful.
+which other agents have a defined strategy.
 
-For this reason we naturally define permissiveness based on refinement
-of strategies: $\sigma'$ is at least as permissive as $\sigma$ if $\sigma\refines\sigma'$.
+For this reason we consider the following natural definition of permissiveness based on refinement
+of strategies:
+\begin{definition}
+  \label{def-permissive}
+  Strategy $\sigma'$ is \emph{more permissive than} strategy $\sigma$
+  if $\sigma\refinesstr\sigma'$. 
+\end{definition}
+
 With this definition, given a formula $\phi(\var)$ we can express that a strategy $\var$
-  is maximally permissive with regards to  $\phi(\var)$. Define formula $\maxperm(\var,\phi)$ as
+  is maximally permissive with regards to  $\phi(\var)$, \ie, that
+  it satisfies $\phi(\var)$ and that no more permissive strategy
+  satisfies it. Define formula $\maxperm(\var,\phi)$ as
   follows:
   \[\maxperm(\var,\phi) \quad := \quad \phi(\var) \wedge (\forall \varb \;
     \var \refinesstr \varb \impl \neg \phi(\varb))\]
-  For instance, if we have two antagonistic players $\ag$ and $\agb$,
-  and $\ag$ tries to ensure the safety property $\always p$, we can let $\phi(\var)=\forall \varc
-  \bind[\ag]{\var}\bind[\agb]{\varc}\A\always p$, and it then holds that
-  $\CGS,\assign,\pos_\init\models \maxperm(\var,\phi)$ if, and only
-  if, $\assign(\var)$ is a maximally permissive winning strategy for $\ag$.
+  For instance, coming back to the framework of reactive synthesis, if
+the specification is a  \CTLs formula $\phi$, it holds that
+  $\CGS,\assign,\pos_\init\models \maxperm(\var,\forall \varc
+  \bind[S]{\var}\bind[E]{\varc}\phi)$ if, and only
+  if, $\assign(\var)$ is a maximally permissive system for
+  specification $\phi$.
 
-To solve the problem of existence of maximally permissive strategy for
-agent $\ag$ and objective $\phi\in\CTLs$,  we can thus model-check the
+To solve the problem of maximally permissive synthesis for a specification $\phi\in\CTLs$,  we can thus model-check the
 following \SLref formula:
 
-\[\exists\var (\ag,\var) \maxperm(\var,\phi)\]
+\[\phisynthmp(\phi):=\exists\var (\ag,\var) \maxperm(\var,\forall \varc
+  \bind[S]{\var}\bind[E]{\varc}\phi)\]
 
 When the formula is true, our model-checking algorithm can also
 produce a witness strategy for $\var$ that is maximally permissive.
-%In particular, the above formula is always true when  $\phi$ encodes a safety objective.
+If $\phi$ is a \CTLs formula, $\phisynthmp$ has simulation depth 3,
+and thus we obtain a 4\EXPTIME upper-bound for this problem, which can
+be reduced to 3\EXPTIME for \LTL specifications, \ie, for formulas of
+the form $\phi=\A\psi$ with $\psi\in\LTL$.
 
-\bam{this is in 3\EXPTIME}
+
 
 \subsection{Strategy refinement}
 \label{sec-plan-B}
@@ -224,13 +258,13 @@ that the truck is at point C, reloading its battery.
 \input{module-checking.tex}
 
 
-\subsection{Synthesis with reactive environments}
-\label{sec-synth-open-env}
+% \subsection{Synthesis with reactive environments}
+% \label{sec-synth-open-env}
 
-The problem studied in~\cite{kupferman2000open} can be captured by the
-following formula:
+% The problem studied in~\cite{kupferman2000open} can be captured by the
+% following formula:
 
-\[\exists\var (S,\var) \forall \varb (E,\varb) \phi\]
+% \[\exists\var (S,\var) \forall \varb (E,\varb) \phi\]
 
 
 %%% Local Variables:
