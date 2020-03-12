@@ -56,7 +56,7 @@ semantics of the outcome quantifier $\A$ that, when
 considering only deterministic strategies,
 $\phisynthdet(\psi)$ is equivalent to $\existsd \var (S,\var)\A\psi$.
 
-\subsection{Supervisory control}
+\subsection{Nondeterministic synthesis}
 \label{sec-nd-synth}
 
 Considering nondeterministic strategies, as we do, does not change
@@ -64,8 +64,8 @@ anything for classical \LTL synthesis. Indeed, consider the following
 formula:
 \[\phisynthndet(\psi):=\exists \var.   \forall \varb.
  (S,\var)(E,\varb) \A \psi\]
-which differs from $\phisynthdet(\psi)$ only in that it allows the system
-$S$ to use nondeterministic strategies. It is easy to check that:
+which differs from $\phisynthdet(\psi)$ only in that it now allows for
+ nondeterministic strategies. It is easy to check that:
 \begin{proposition}
   \label{prop-equiv-synth}
   For every \LTL formula $\psi$, \[\CGS_{I,O}\models
@@ -153,7 +153,7 @@ This formula has simulation depth at most 2,
   
 We want to clarify what the synthesis problem with nondeterministic
 strategies as defined by $\phisynthndet(\phi)$ means when $\phi$
-involved possibility requirements of the form $\E\psi$.
+involves possibility requirements of the form $\E\psi$.
 Take for instance formula $\phisynthndet(\E \always p
   \wedge \E \F \neg p)$, and consider the \CGS $\CGS_2$ depicted in
   Figure~\ref{fig:exampleb}. It is the case that $\CGS_2\models\phisynthndet(\E \always p
