@@ -37,7 +37,7 @@ then be solved by model-checking on $\CGS_{I,O}$ the \SLref formula
 problem as existing model-checking algorithms for Strategy Logic can
 synthesise  witness strategies (when they exist) for strategy variables existentially
 quantified at the beginning of the formula.
-Rewriting $\phisynthdet$ as $\existsd \var. \neg  \existsd  \varb.
+Rewriting $\phisynthdet(\psi)$ as $\existsd \var. \neg  \existsd  \varb.
  (S,\var)(E,\varb) \E \neg \psi$
 we see that it has simulation depth 1 (see
 Remark~\ref{rem-def-existsdet}) and thus can be solved by the
@@ -95,7 +95,8 @@ $S$ to use nondeterministic strategies. It is easy to check that:
     (2) edge [loop right]     node[minimum size=5pt]
     {$\cdot\,,\cdot$} (2);
 \end{tikzpicture}  
-  \caption{A model in which $\phi'_1$ holds}
+  \caption{A model $\CGS_1$ in which $\phisynthndet(\E \always p
+  \wedge \E \F \neg p)$ holds}
   \label{fig:example}
 \end{figure}
 
@@ -103,11 +104,14 @@ However it makes a difference if, instead of considering only
 universal satisfaction of an \LTL formula on all outcomes, we consider
 other forms of branching-time specifications, in particular
 specifications that require existence of outcomes satisfying different
-properties, sometimes called \emph{possibility requirements}~\cite{kupferman1997module}. For instance,
-\[\phi_1:=\existsd \var (S,\var) \foralld \varb (E,\varb) (\E \always p
+properties, sometimes called \emph{possibility
+  requirements}~\cite{kupferman1997module}.
+
+
+For instance, \[\phi_1 := \existsd \var (S,\var) \foralld \varb (E,\varb)(\E \always p
   \wedge \E \F \neg p)\]
 is always false, because a pair of
-strategies for the system and the environment determine a unique
+deterministic strategies for the system and the environment determine a unique
 outcome that cannot satisfy both $\always p$ and $\F\neg p$.
 However
 \[\phi'_1:=\exists \var (S,\var) \forall \varb (E,\varb) (\E \always p
@@ -116,49 +120,132 @@ However
 initial position is marked by an incoming arrow and  '$\cdot$' stands
 for any possible action, it is clear that the nondeterministic
 strategy that allows both $a$ and $b$ in the initial position is a
-witness for the satisfaction of $\phi'_1$.
-Note that in this example the environment's choices are irrelevant.
+witness for the satisfaction of $\phi'_1$. We write this strategy
+$\strat_{a,b}$, and we let $\strat_a$ and $\strat_b$ be the
+deterministic strategies that allow respectively only $a$ and only $b$
+in the initial position (which is the only relevant part in this \CGS).
+%Note that in this example the environment's choices are irrelevant.
 
-Then we can combine the two kinds of specifications by  requiring the
+If $\phi$ is a \CTLs formula, we now let
+\[\phisynthndet(\phi):=\exists \var.   \forall \varb.
+ (S,\var)(E,\varb) \phi\]
+
+We can combine the two kinds of specifications (existential and universal) by  requiring the
 existence of behaviours satisfying some properties, while requiring
 that all  behaviours satisfy some other property.
 For instance, formula
-\[\phi_2:=\exists \var (S,\var) \forall\varb (E,\varb)(\E \F p \wedge \E \F
-  q \wedge \A \always \F (p\vee q))\]
+$\phisynthndet(\E \F p \wedge \E \F
+  q \wedge \A \always \F (p\vee q))$
   asks that some behaviours 
  reach $p$, some  reach $q$, and all behaviours go infinitely
  often through $p$ or $q$.
 
-For arbitrary \CTLs specifications $\phi$, the formula $\exists \var
-(S,\var) \forall\varb (E,\varb)\phi$ captures the
+For arbitrary \CTLs specifications $\phi$,  formula $\phisynthdet(\phi)$ captures the
 \emph{supervisory control problem} for \CTLs as defined in
 ~\cite{KMTV00}, where it is proved to be 3\EXPTIME-complete.
 This formula has simulation depth at most 2,
-  and thus the model-checking algorithm for \SLref provides the
-  optimal upper bound. The same complexity is proved
+  and thus the model-checking algorithm for \SLref has
+  optimal complexity. The same complexity is proved
   in~\cite{jiang2006supervisory} in a slightly different setting.
 
-\bam{add discussion about writing $\existsd \varc. \varc\refines\var
-  \wedge (S,\varc)\A\psi$ instead of $\E\psi$}
+  \subsection{Unilateral forcing}
+  \label{sec-forcing}
   
-  % \begin{remark}
-  %   \label{rem-det-env}
-  %   In~\cite{KMTV00} the supervisory control
-  %   problem is stated with \emph{nondeterministic} strategies for the
-  %   environment, while in our formulation the strategy of the system
-  %   has to satisfy the specification against every
-  %   \emph{deterministic} strategy of the environment. The former is
-  %   more demanding, as nondeterministic strategies include
-  %   deterministic ones; but if we know that the environment has to
-  %   follow a deterministic strategy, then the latter variant gives
-  %   even more confidence regarding the quality of the system's
-  %   strategy, in the sense that it ensures not only that all the
-  %   possibilities (formulas of the form $\E\psi$) in the specification
-  %   are satisfied, but in addition it means that the system can choose
-  %   which one to satisfy. Indeed, if the system's strategy $\sigma$ ensures that against
-  %   any  deterministic
-  %   strategy of the environment, $\E$ 
-  % \end{remark}
+We want to clarify what the synthesis problem with nondeterministic
+strategies as defined by $\phisynthndet(\phi)$ means when $\phi$
+involved possibility requirements of the form $\E\psi$.
+Take for instance formula $\phisynthndet(\E \always p
+  \wedge \E \F \neg p)$, and consider the \CGS $\CGS_2$ depicted in
+  Figure~\ref{fig:exampleb}. It is the case that $\CGS_2\models\phisynthndet(\E \always p
+  \wedge \E \F \neg p)$, as witnessed by the strategy $\strat_{a,b}$ that allows both
+  $a$ and $b$ in the initial state. Indeed, if the system follows
+  $\strat_{a,b}$, then for any strategy $\strat'$ for the environment, there
+  exists an outcome that satisfies $\always p$ and one that satisfies
+  $\F \neg p$. In case strategy $\strat'$ is deterministic, the system
+  can choose which kind of outcome to obtain: if $\strat'$ plays $a$
+  in the initial position, and the system knows it, then the system
+  can enforce $\always p$ by playing $a$ in the initial position, which is
+  allowed by its strategy $\strat$, and to enfore $\F\neg p$ it can
+  play $b$, also allowed by $\strat$. If however the environment
+uses the nondeterministic  strategy $\strat_{a,b}$, then the system cannot unilaterally choose
+  which possibility to enforce.
+
+\begin{figure}
+  \centering
+\begin{tikzpicture}[shorten >= 1pt, shorten <= 1pt, minimum size  =
+  .7cm, auto]
+  \tikzstyle{rond}=[circle,draw=black]
+  
+  \node[rond] (init) {};
+  \node (aux-init) [above=.5cm of init] {};
+  \node (aux) [below =1.5cm of init] {};
+  \node[rond] (1) [left = 1cm of aux] {$p$};
+  \node[rond] (2) [right = 1cm of aux] {};
+  
+  \path[->,thick] 
+  (aux-init) edge  (init)       
+  (init) edge   node[minimum size=0pt,swap,pos=.35,left=0pt]   {
+    \begin{tabular}{c}
+      $a,a$\\
+      $b,b$
+    \end{tabular}}    (1)
+  (init) edge  node[minimum size=5pt, pos=.35, right=0pt] {\begin{tabular}{c}
+      $a,b$\\
+      $b,a$
+    \end{tabular}} (2);
+
+  \path[->,thick]
+    (1) edge [loop left]     node[minimum size=5pt]
+    {$\cdot\,,\cdot$} (1)
+    (2) edge [loop right]     node[minimum size=5pt]
+    {$\cdot\,,\cdot$} (2);
+\end{tikzpicture}  
+  \caption{A model $\CGS_2$ in which $\phisynthndet(\E \always p
+  \wedge \E \F \neg p)$ holds}
+  \label{fig:exampleb}
+\end{figure}
+
+  
+However, the ability to choose unilaterally can also be expressed in
+\SLref, once more using the refinement operator.
+Define the following formula, where $\psi$ is an \LTL formula:
+\[\phienforce(\var,\psi):=\existsd \varb.\, \varb\refines\var
+  \wedge (S,\varb)\A\psi\]
+
+Now consider the formula
+\[\phi_2:=\exists \var (S,\var) \forall \varb (E,\varb) (\phienforce(\var, \always p)
+  \wedge \phienforce(\var,\F \neg p))\]
+
+It is easy to see that $\phi_2$ implies $\phisynthndet(\E\always p
+\wedge \E\F\neg p)$. But when it holds, it means in addition that the
+system can unilaterally choose which of $\always p$ or $\F\neg p$
+should hold, by picking one deterministic refinement of its
+nondeterministic strategy. For instance $\phi_2$  holds on $\CGS_1$:
+if the system uses $\strat_{a,b}$, it can choose to enforce
+$\always p$ by refining it to $\strat_a$, or
+enforce $\F\neg p$ by  refining it to $\strat_b$.
+In both cases, the property will hold no matter how the environement
+behaves.
+However, $\phi_2$ does not hold on $\CGS_2$: assume first that the system uses one of
+the deterministic strategies $\strat_a$ and $\strat_b$, then when the
+environment also picks a deterministic strategy, it fixes a unique
+outcome and thus $\phienforce(\var, \always p)
+  \wedge \phienforce(\var,\F \neg p)$ does not hold. Now assume  the system
+  uses $\strat_{a,b}$. If the environment also picks $\strat_{a,b}$,
+  then $\phienforce(\var, \always p)
+  \wedge \phienforce(\var,\F \neg p)$ does not hold: indeed, the only
+  deterministic refinements of $\strat_{a,b}$ are $\strat_a$ and
+  $\strat_b$, and for any of these, the outcome ($\always p$ or
+  $\F\neg p$) depends on which action the environment picks from its
+  nondeterministic strategy $\strat_{a,b}$.
+
+This shows that $\phi_2$ is indeed a stronger requirement than
+$\phi_1$, which holds on both $\CGS_1$ and $\CGS_2$.
+  
+% while $\CGS_1$ and $\CGS_2$
+% both satisfy $\phisynthndet(\E \always p
+%   \wedge \E \F \neg p)$,
+
   
 It is then natural to look for  strategies that allow for as many
 behaviours as possible. Such strategies are usually called
