@@ -29,7 +29,7 @@ Another interesting case is that controllers that orchestrate several components
 
 Nondeterministic strategies are also of interest in planning \cite{GeffnerBo13}.  Action preconditions themselves can be though of as generating a nondeterministic strategy  as a function that given the state of the domain returns a set of possible actions. 
 
-Also module checking can be considered as dealing with nondeterministic strategies of the environment \cite{kupferman1997module,jamroga2014module} ....
+Also module checking can be considered as dealing with nondeterministic strategies of the environment \cite{kupferman1997module,jamroga2014module}. In the basic setting, module checking concerns the model checking problem of an open system, i.e., a system interacting continuously with its unpredictable environment, against a branching-time specification. This interaction can be seen as a game between the system and the environment, where the latter, along a play, at its own turn, choses some of the possible available successors, while the former, at its own turn, takes all possible ones. Therefore, while model checking concerns checking that the unique possible evolution of the system (a tree) satisfies the specification, in module checking one has to check that the specification holds over all the possible evolutions coming from the interaction of the system with the environment.
 
 An important problem is that of refining
   such strategies. For instance, given a nondeterministic strategy
